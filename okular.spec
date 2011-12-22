@@ -1,7 +1,7 @@
 Name: okular
 Summary: A universal document viewer
-Version: 4.7.90
-Release: 2
+Version: 4.7.95
+Release: 1
 Epoch: 2
 Group: Graphical desktop/KDE
 License: GPLv2
