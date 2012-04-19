@@ -1,12 +1,12 @@
 Name:		okular
 Summary:	A universal document viewer
-Version: 4.8.1
+Version: 4.8.2
 Release: 1
 Epoch:		2
 Group:		Graphical desktop/KDE
 License:	GPLv2
 URL:		http://www.kde.org/applications/graphics/okular/
-Source:		ftp://ftp.kde.org/pub/kde/stable/%{version}/src/%{name}-%{version}.tar.bz2
+Source:		ftp://ftp.kde.org/pub/kde/stable/%{version}/src/%{name}-%{version}.tar.xz
 Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs4-devel >= 2:%{version}
 BuildRequires:	qimageblitz-devel
