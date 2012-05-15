@@ -1,7 +1,7 @@
 Name:		okular
 Summary:	A universal document viewer
 Version:	4.8.3
-Release:	2
+Release:	3
 Epoch:		2
 Group:		Graphical desktop/KDE
 License:	GPLv2
@@ -38,7 +38,7 @@ the supported formats and the features supported in each of them.
 %package pdf
 Summary:	PDF display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 BuildRequires:	pkgconfig(poppler-qt4) >= 0.20.0
 
 %description pdf
@@ -54,7 +54,7 @@ PDF display support for Okular
 %package chm
 Summary:	CHM (Microsoft Help) display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 BuildRequires:	chmlib-devel
 
 %description chm
@@ -72,7 +72,7 @@ CHM (Microsoft Help) display support for Okular
 %package comicbook
 Summary:	ComicBook display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 
 %description comicbook
 ComicBook display support for Okular
@@ -87,7 +87,7 @@ ComicBook display support for Okular
 %package djvu
 Summary:	DjVu display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 BuildRequires:	pkgconfig(ddjvuapi)
 
 %description djvu
@@ -103,7 +103,7 @@ DjVu display support for Okular
 %package dvi
 Summary:	DVI display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 
 %description dvi
 DVI display support for Okular
@@ -118,7 +118,7 @@ DVI display support for Okular
 %package epub
 Summary:	EPub display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 BuildRequires:	ebook-tools-devel
 
 %description epub
@@ -134,7 +134,7 @@ EPub display support for Okular
 %package fax
 Summary:	Fax display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 
 %description fax
 Fax display support for Okular
@@ -149,7 +149,7 @@ Fax display support for Okular
 %package fb
 Summary:	FeedBooks display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 
 %description fb
 FeedBooks display support for Okular
@@ -164,7 +164,7 @@ FeedBooks display support for Okular
 %package postscript
 Summary:	PostScript display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 BuildRequires:	pkgconfig(libspectre)
 
 %description postscript
@@ -180,7 +180,7 @@ PostScript display support for Okular
 %package kimgio
 Summary:	KImgIO display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 
 %description kimgio
 KImgIO display support for Okular
@@ -195,7 +195,7 @@ KImgIO display support for Okular
 %package ooo
 Summary:	OpenOffice.Org/LibreOffice display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 
 %description ooo
 OpenOffice.org/LibreOffice display support for Okular
@@ -210,7 +210,7 @@ OpenOffice.org/LibreOffice display support for Okular
 %package plucker
 Summary:	Plucker display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 
 %description plucker
 Plucker display support for Okular
@@ -225,7 +225,7 @@ Plucker display support for Okular
 %package tiff
 Summary:	TIFF display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 
 %description tiff
 TIFF display support for Okular
@@ -240,7 +240,7 @@ TIFF display support for Okular
 %package xps
 Summary:	XPS display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %version-%release
+Requires:	%name = %epoch:%version-%release
 
 %description xps
 XPS display support for Okular
