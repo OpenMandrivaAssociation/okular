@@ -1,7 +1,7 @@
 Name:		okular
 Summary:	A universal document viewer
-Version: 4.8.4
-Release: 1
+Version:	4.8.4
+Release:	2
 Epoch:		2
 Group:		Graphical desktop/KDE
 License:	GPLv2
@@ -11,6 +11,7 @@ Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs4-devel >= 2:%{version}
 BuildRequires:	qimageblitz-devel
 Suggests:	%{name}-pdf = %{EVRD}
+Suggests:	%{name}-postscript = %{EVRD}
 
 %description
 Okular is a universal document viewer based on KPDF for KDE 4.
