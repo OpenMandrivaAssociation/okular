@@ -6,10 +6,10 @@ Epoch:		2
 Group:		Graphical desktop/KDE
 License:	GPLv2
 URL:		http://www.kde.org/applications/graphics/okular/
-Source0:	ftp://ftp.kde.org/pub/kde/stable/%{version}/src/%{name}-%{version}.tar.xz
+Source0:	ftp://ftp.kde.org/pub/kde/unstable/%{version}/src/%{name}-%{version}.tar.xz
 Patch0:		kdegraphics-4.6.4-okularxdg.patch
-BuildRequires:	kdelibs4-devel >= 2:%{version}
-BuildRequires:	qimageblitz-devel
+BuildRequires:	kdelibs4-devel
+BuildRequires:	pkgconfig(qimageblitz)
 Suggests:	%{name}-pdf = %{EVRD}
 Suggests:	%{name}-postscript = %{EVRD}
 
@@ -25,233 +25,233 @@ the supported formats and the features supported in each of them.
 
 %files
 %doc AUTHORS COPYING TODO VERSION
+%doc %{_kde_docdir}/HTML/en/okular/
 %{_kde_bindir}/okular
 %{_kde_libdir}/kde4/okularpart.so
-%{_kde_datadir}/applications/kde4/okular.desktop
+%{_kde_applicationsdir}/okular.desktop
 %{_kde_appsdir}/okular
 %{_kde_datadir}/config.kcfg/okular.kcfg
 %{_kde_datadir}/config.kcfg/gssettings.kcfg
-%{_kde_datadir}/kde4/services/okular_part.desktop
-%{_kde_datadir}/kde4/servicetypes/okularGenerator.desktop
+%{_kde_services}/okular_part.desktop
+%{_kde_servicetypes}/okularGenerator.desktop
 %{_kde_iconsdir}/*/*/*/okular.*
-%doc %{_kde_docdir}/HTML/en/okular/
 
 #------------------------------------------------
 %package pdf
 Summary:	PDF display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
-BuildRequires:	pkgconfig(poppler-qt4) >= 0.20.0
+Requires:	%{name} = %{EVRD}
+BuildRequires:	pkgconfig(poppler-qt4)
 
 %description pdf
 PDF display support for Okular
 
 %files pdf
-%_libdir/kde4/okularGenerator_poppler.so
-%_datadir/kde4/services/libokularGenerator_poppler.desktop
-%_datadir/kde4/services/okularPoppler.desktop
-%_datadir/applications/kde4/okularApplication_pdf.desktop
+%{_kde_libdir}/kde4/okularGenerator_poppler.so
+%{_kde_services}/libokularGenerator_poppler.desktop
+%{_kde_services}/okularPoppler.desktop
+%{_kde_applicationsdir}/okularApplication_pdf.desktop
 
 #------------------------------------------------
 %package chm
 Summary:	CHM (Microsoft Help) display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 BuildRequires:	chmlib-devel
 
 %description chm
 CHM (Microsoft Help) display support for Okular
 
 %files chm
-%_kde_libdir/kde4/kio_msits.so
-%_kde_libdir/kde4/okularGenerator_chmlib.so
-%_kde_datadir/kde4/services/msits*
-%_kde_datadir/kde4/services/libokularGenerator_chmlib.desktop
-%_kde_datadir/kde4/services/okularChm.desktop
-%_kde_datadir/applications/kde4/okularApplication_chm.desktop
+%{_kde_libdir}/kde4/kio_msits.so
+%{_kde_libdir}/kde4/okularGenerator_chmlib.so
+%{_kde_services}/msits*
+%{_kde_services}/libokularGenerator_chmlib.desktop
+%{_kde_services}/okularChm.desktop
+%{_kde_applicationsdir}/okularApplication_chm.desktop
 
 #------------------------------------------------
 %package comicbook
 Summary:	ComicBook display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 
 %description comicbook
 ComicBook display support for Okular
 
 %files comicbook
-%_libdir/kde4/okularGenerator_comicbook.so
-%_datadir/kde4/services/libokularGenerator_comicbook.desktop
-%_datadir/kde4/services/okularComicbook.desktop
-%_datadir/applications/kde4/okularApplication_comicbook.desktop
+%{_kde_libdir}/kde4/okularGenerator_comicbook.so
+%{_kde_services}/libokularGenerator_comicbook.desktop
+%{_kde_services}/okularComicbook.desktop
+%{_kde_applicationsdir}/okularApplication_comicbook.desktop
 
 #------------------------------------------------
 %package djvu
 Summary:	DjVu display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 BuildRequires:	pkgconfig(ddjvuapi)
 
 %description djvu
 DjVu display support for Okular
 
 %files djvu
-%_libdir/kde4/okularGenerator_djvu.so
-%_datadir/kde4/services/libokularGenerator_djvu.desktop
-%_datadir/kde4/services/okularDjvu.desktop
-%_datadir/applications/kde4/okularApplication_djvu.desktop
+%{_kde_libdir}/kde4/okularGenerator_djvu.so
+%{_kde_services}/libokularGenerator_djvu.desktop
+%{_kde_services}/okularDjvu.desktop
+%{_kde_applicationsdir}/okularApplication_djvu.desktop
 
 #------------------------------------------------
 %package dvi
 Summary:	DVI display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 
 %description dvi
 DVI display support for Okular
 
 %files dvi
-%_libdir/kde4/okularGenerator_dvi.so
-%_datadir/kde4/services/libokularGenerator_dvi.desktop
-%_datadir/kde4/services/okularDvi.desktop
-%_datadir/applications/kde4/okularApplication_dvi.desktop
+%{_kde_libdir}/kde4/okularGenerator_dvi.so
+%{_kde_services}/libokularGenerator_dvi.desktop
+%{_kde_services}/okularDvi.desktop
+%{_kde_applicationsdir}/okularApplication_dvi.desktop
 
 #------------------------------------------------
 %package epub
 Summary:	EPub display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 BuildRequires:	ebook-tools-devel
 
 %description epub
 EPub display support for Okular
 
 %files epub
-%_libdir/kde4/okularGenerator_epub.so
-%_datadir/kde4/services/libokularGenerator_epub.desktop
-%_datadir/kde4/services/okularEPub.desktop
-%_datadir/applications/kde4/okularApplication_epub.desktop
+%{_kde_libdir}/kde4/okularGenerator_epub.so
+%{_kde_services}/libokularGenerator_epub.desktop
+%{_kde_services}/okularEPub.desktop
+%{_kde_applicationsdir}/okularApplication_epub.desktop
 
 #------------------------------------------------
 %package fax
 Summary:	Fax display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 
 %description fax
 Fax display support for Okular
 
 %files fax
-%_libdir/kde4/okularGenerator_fax.so
-%_datadir/kde4/services/libokularGenerator_fax.desktop
-%_datadir/kde4/services/okularFax.desktop
-%_datadir/applications/kde4/okularApplication_fax.desktop
+%{_kde_libdir}/kde4/okularGenerator_fax.so
+%{_kde_services}/libokularGenerator_fax.desktop
+%{_kde_services}/okularFax.desktop
+%{_kde_applicationsdir}/okularApplication_fax.desktop
 
 #------------------------------------------------
 %package fb
 Summary:	FeedBooks display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 
 %description fb
 FeedBooks display support for Okular
 
 %files fb
-%_libdir/kde4/okularGenerator_fb.so
-%_datadir/kde4/services/libokularGenerator_fb.desktop
-%_datadir/kde4/services/okularFb.desktop
-%_datadir/applications/kde4/okularApplication_fb.desktop
+%{_kde_libdir}/kde4/okularGenerator_fb.so
+%{_kde_services}/libokularGenerator_fb.desktop
+%{_kde_services}/okularFb.desktop
+%{_kde_applicationsdir}/okularApplication_fb.desktop
 
 #------------------------------------------------
 %package postscript
 Summary:	PostScript display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 BuildRequires:	pkgconfig(libspectre)
 
 %description postscript
 PostScript display support for Okular
 
 %files postscript
-%_libdir/kde4/okularGenerator_ghostview.so
-%_datadir/kde4/services/libokularGenerator_ghostview.desktop
-%_datadir/kde4/services/okularGhostview.desktop
-%_datadir/applications/kde4/okularApplication_ghostview.desktop
+%{_kde_libdir}/kde4/okularGenerator_ghostview.so
+%{_kde_services}/libokularGenerator_ghostview.desktop
+%{_kde_services}/okularGhostview.desktop
+%{_kde_applicationsdir}/okularApplication_ghostview.desktop
 
 #------------------------------------------------
 %package kimgio
 Summary:	KImgIO display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 
 %description kimgio
 KImgIO display support for Okular
 
 %files kimgio
-%_libdir/kde4/okularGenerator_kimgio.so
-%_datadir/kde4/services/libokularGenerator_kimgio.desktop
-%_datadir/kde4/services/okularKimgio.desktop
-%_datadir/applications/kde4/okularApplication_kimgio.desktop
+%{_kde_libdir}/kde4/okularGenerator_kimgio.so
+%{_kde_services}/libokularGenerator_kimgio.desktop
+%{_kde_services}/okularKimgio.desktop
+%{_kde_applicationsdir}/okularApplication_kimgio.desktop
 
 #------------------------------------------------
 %package ooo
 Summary:	OpenOffice.Org/LibreOffice display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 
 %description ooo
 OpenOffice.org/LibreOffice display support for Okular
 
 %files ooo
-%_libdir/kde4/okularGenerator_ooo.so
-%_datadir/kde4/services/libokularGenerator_ooo.desktop
-%_datadir/kde4/services/okularOoo.desktop
-%_datadir/applications/kde4/okularApplication_ooo.desktop
+%{_kde_libdir}/kde4/okularGenerator_ooo.so
+%{_kde_services}/libokularGenerator_ooo.desktop
+%{_kde_services}/okularOoo.desktop
+%{_kde_applicationsdir}/okularApplication_ooo.desktop
 
 #------------------------------------------------
 %package plucker
 Summary:	Plucker display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 
 %description plucker
 Plucker display support for Okular
 
 %files plucker
-%_libdir/kde4/okularGenerator_plucker.so
-%_datadir/kde4/services/libokularGenerator_plucker.desktop
-%_datadir/kde4/services/okularPlucker.desktop
-%_datadir/applications/kde4/okularApplication_plucker.desktop
+%{_libdir}/kde4/okularGenerator_plucker.so
+%{_kde_services}/libokularGenerator_plucker.desktop
+%{_kde_services}/okularPlucker.desktop
+%{_kde_applicationsdir}/okularApplication_plucker.desktop
 
 #------------------------------------------------
 %package tiff
 Summary:	TIFF display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 
 %description tiff
 TIFF display support for Okular
 
 %files tiff
-%_libdir/kde4/okularGenerator_tiff.so
-%_datadir/kde4/services/libokularGenerator_tiff.desktop
-%_datadir/kde4/services/okularTiff.desktop
-%_datadir/applications/kde4/okularApplication_tiff.desktop
+%{_kde_libdir}/kde4/okularGenerator_tiff.so
+%{_kde_services}/libokularGenerator_tiff.desktop
+%{_kde_services}/okularTiff.desktop
+%{_kde_applicationsdir}/okularApplication_tiff.desktop
 
 #------------------------------------------------
 %package xps
 Summary:	XPS display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%name = %epoch:%version-%release
+Requires:	%{name} = %{EVRD}
 
 %description xps
 XPS display support for Okular
 
 %files xps
-%_libdir/kde4/okularGenerator_xps.so
-%_datadir/kde4/services/libokularGenerator_xps.desktop
-%_datadir/kde4/services/okularXps.desktop
-%_datadir/applications/kde4/okularApplication_xps.desktop
+%{_kde_libdir}/kde4/okularGenerator_xps.so
+%{_kde_services}/libokularGenerator_xps.desktop
+%{_kde_services}/okularXps.desktop
+%{_kde_applicationsdir}/okularApplication_xps.desktop
 
 #------------------------------------------------
 
@@ -274,8 +274,8 @@ Runtime library for Okular.
 Summary:	Devel stuff for kdegraphics
 Group:		Development/KDE and Qt
 Conflicts:	kdegraphics4-devel < 2:4.6.90
-Requires:	%{libokularcore} = %{epoch}:%{version}-%{release}
-Requires:	kdelibs4-devel >= 2:%{version}
+Requires:	%{libokularcore} = %{EVRD}
+Requires:	kdelibs4-devel
 Requires:	chmlib-devel
 Requires:	ebook-tools-devel
 
@@ -301,5 +301,4 @@ based on okular.
 
 %install
 %makeinstall_std -C build
-
 
