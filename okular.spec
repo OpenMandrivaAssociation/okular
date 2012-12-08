@@ -1,7 +1,7 @@
 Name:		okular
 Summary:	A universal document viewer
-Version: 4.9.3
-Release: 1
+Version:	4.9.4
+Release:	1
 Epoch:		2
 Group:		Graphical desktop/KDE
 License:	GPLv2
@@ -10,8 +10,8 @@ Source0:	ftp://ftp.kde.org/pub/kde/stable/%{version}/src/%{name}-%{version}.tar.
 Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs4-devel
 BuildRequires:	pkgconfig(qimageblitz)
-Suggests:	%{name}-pdf = %{EVRD}
-Suggests:	%{name}-postscript = %{EVRD}
+Requires:	%{name}-pdf = %{EVRD}
+Requires:	%{name}-postscript = %{EVRD}
 
 %description
 Okular is a universal document viewer based on KPDF for KDE 4.
@@ -301,4 +301,98 @@ based on okular.
 
 %install
 %makeinstall_std -C build
+
+%changelog
+* Wed Dec 05 2012 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.9.4-1
+- New version 4.9.4
+
+* Wed Nov 07 2012 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.9.3-1
+- New version 4.9.3
+
+* Thu Oct 04 2012 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.9.2-2
+- New version 4.9.2
+- Change Suggests to Requires because we build ISOs with --no-suggests
+
+* Sat Sep 08 2012 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.9.1-1
+- New version 4.9.1
+
+* Tue Aug 14 2012 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.9.0-1
+- New version 4.9.0
+
+* Fri Jul 20 2012 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.8.97-1
+- New version 4.8.97
+
+* Wed Jul 04 2012 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.8.95-1
+- New version 4.8.95
+- Spec cosmetics
+
+* Sat Jun 09 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 2:4.8.4-2
++ Revision: 803877
+- add a suggests on okular-postscript as well as it's a fairly common format
+
+  + Crispin Boylan <crisb@mandriva.org>
+    - New release
+
+* Fri May 18 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 2:4.8.3-4
++ Revision: 799527
+- add a suggestions on okular-pdf for okular, so that we'll get pdf support by
+  default
+
+* Tue May 15 2012 Bernhard Rosenkraenzer <bero@bero.eu> 2:4.8.3-3
++ Revision: 799047
+- Fix installation of plugins (epoch dependency)
+
+* Mon May 14 2012 Bernhard Rosenkraenzer <bero@bero.eu> 2:4.8.3-2
++ Revision: 798842
+- Split file format plugins into separate packages so we don't
+  have to require obscure libraries like chmlib for a simple
+  PDF viewer
+- Rebuild for poppler 0.20.0
+
+* Fri May 04 2012 Crispin Boylan <crisb@mandriva.org> 2:4.8.3-1
++ Revision: 796273
+- New release
+
+* Thu Apr 19 2012 Crispin Boylan <crisb@mandriva.org> 2:4.8.2-1
++ Revision: 792015
+- New release
+
+  + Nicolas Lécureuil <nlecureuil@mandriva.com>
+    - New upstream tarball
+
+* Thu Feb 23 2012 Andrey Bondrov <abondrov@mandriva.org> 2:4.8.0-2
++ Revision: 779320
+- Port xdg menu patch from kdegraphics4 in 2011 branch
+
+* Thu Jan 19 2012 Nicolas Lécureuil <nlecureuil@mandriva.com> 2:4.8.0-1
++ Revision: 762501
+- New upstream tarball
+
+* Fri Jan 06 2012 Nicolas Lécureuil <nlecureuil@mandriva.com> 2:4.7.97-1
++ Revision: 758086
+- New upstream tarball
+
+* Thu Dec 22 2011 Nicolas Lécureuil <nlecureuil@mandriva.com> 2:4.7.95-1
++ Revision: 744565
+- New upstream tarball
+
+  + Oden Eriksson <oeriksson@mandriva.com>
+    - rebuilt against libtiff.so.5
+
+* Fri Dec 09 2011 Nicolas Lécureuil <nlecureuil@mandriva.com> 2:4.7.90-1
++ Revision: 739320
+- New upstream tarball $NEW_VERSION
+
+* Sat Nov 19 2011 Nicolas Lécureuil <nlecureuil@mandriva.com> 2:4.7.80-1
++ Revision: 731862
+- New upstream tarball 4.7.80
+
+* Sun Nov 13 2011 Oden Eriksson <oeriksson@mandriva.com> 2:4.7.41-2
++ Revision: 730447
+- rebuild
+
+* Tue Oct 11 2011 Nicolas Lécureuil <nlecureuil@mandriva.com> 2:4.7.41-1
++ Revision: 704201
+- Import package
+- Create current folder
 
