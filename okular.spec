@@ -1,12 +1,18 @@
 Name:		okular
 Summary:	A universal document viewer
-Version:	4.9.4
+Version:	4.9.98
 Release:	1
 Epoch:		2
 Group:		Graphical desktop/KDE
 License:	GPLv2
 URL:		http://www.kde.org/applications/graphics/okular/
-Source0:	ftp://ftp.kde.org/pub/kde/stable/%{version}/src/%{name}-%{version}.tar.xz
+%define is_beta %(if test `echo %version |cut -d. -f3` -ge 70; then echo -n 1; else echo -n 0; fi)
+%if %is_beta
+%define ftpdir unstable
+%else
+%define ftpdir stable
+%endif
+Source0:	ftp://ftp.kde.org/pub/kde/%ftpdir/%{version}/src/%{name}-%{version}.tar.xz
 Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs4-devel
 BuildRequires:	pkgconfig(qimageblitz)
@@ -32,9 +38,13 @@ the supported formats and the features supported in each of them.
 %{_kde_appsdir}/okular
 %{_kde_datadir}/config.kcfg/okular.kcfg
 %{_kde_datadir}/config.kcfg/gssettings.kcfg
+%{_kde_datadir}/config.kcfg/okular_core.kcfg
 %{_kde_services}/okular_part.desktop
 %{_kde_servicetypes}/okularGenerator.desktop
 %{_kde_iconsdir}/*/*/*/okular.*
+%{_kde_libdir}/kde4/imports/org/kde/okular
+%{_kde_datadir}/apps/kconf_update/okular.upd
+%_mandir/man1/okular.1*
 
 #------------------------------------------------
 %package pdf
@@ -255,7 +265,7 @@ XPS display support for Okular
 
 #------------------------------------------------
 
-%define okularcore_major 1
+%define okularcore_major 2
 %define libokularcore %mklibname okularcore %{okularcore_major}
 
 %package -n %{libokularcore}
