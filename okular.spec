@@ -1,18 +1,18 @@
 Name:		okular
 Summary:	A universal document viewer
-Version:	4.9.98
+Version:	4.10.0
 Release:	1
 Epoch:		2
 Group:		Graphical desktop/KDE
 License:	GPLv2
 URL:		http://www.kde.org/applications/graphics/okular/
 %define is_beta %(if test `echo %version |cut -d. -f3` -ge 70; then echo -n 1; else echo -n 0; fi)
-%if %is_beta
+%if %{is_beta}
 %define ftpdir unstable
 %else
 %define ftpdir stable
 %endif
-Source0:	ftp://ftp.kde.org/pub/kde/%ftpdir/%{version}/src/%{name}-%{version}.tar.xz
+Source0:	ftp://ftp.kde.org/pub/kde/%{ftpdir}/%{version}/src/%{name}-%{version}.tar.xz
 Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs4-devel
 BuildRequires:	pkgconfig(qimageblitz)
@@ -34,17 +34,17 @@ the supported formats and the features supported in each of them.
 %doc %{_kde_docdir}/HTML/en/okular/
 %{_kde_bindir}/okular
 %{_kde_libdir}/kde4/okularpart.so
+%{_kde_libdir}/kde4/imports/org/kde/okular
 %{_kde_applicationsdir}/okular.desktop
 %{_kde_appsdir}/okular
+%{_kde_appsdir}/kconf_update/okular.upd
 %{_kde_datadir}/config.kcfg/okular.kcfg
 %{_kde_datadir}/config.kcfg/gssettings.kcfg
 %{_kde_datadir}/config.kcfg/okular_core.kcfg
 %{_kde_services}/okular_part.desktop
 %{_kde_servicetypes}/okularGenerator.desktop
 %{_kde_iconsdir}/*/*/*/okular.*
-%{_kde_libdir}/kde4/imports/org/kde/okular
-%{_kde_datadir}/apps/kconf_update/okular.upd
-%_mandir/man1/okular.1*
+%{_kde_mandir}/man1/okular.1*
 
 #------------------------------------------------
 %package pdf
@@ -271,6 +271,7 @@ XPS display support for Okular
 %package -n %{libokularcore}
 Summary:	Runtime library for okular
 Group:		System/Libraries
+Obsoletes:	%{_lib}okularcore1 < 2:4.10.0
 
 %description -n %{libokularcore}
 Runtime library for Okular.
@@ -313,6 +314,10 @@ based on okular.
 %makeinstall_std -C build
 
 %changelog
+* Thu Feb 07 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.10.0-1
+- New version 4.10.0
+- New library major, obsolete old library package
+
 * Wed Dec 05 2012 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.9.4-1
 - New version 4.9.4
 
