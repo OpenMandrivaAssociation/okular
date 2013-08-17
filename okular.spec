@@ -1,10 +1,10 @@
-Name:		okular
 Summary:	A universal document viewer
+Name:		okular
 Version:	4.11.0
 Release:	1
 Epoch:		2
 Group:		Graphical desktop/KDE
-License:	GPLv2
+License:	GPLv2+
 URL:		http://www.kde.org/applications/graphics/okular/
 %define is_beta %(if test `echo %version |cut -d. -f3` -ge 70; then echo -n 1; else echo -n 0; fi)
 %if %{is_beta}
@@ -18,6 +18,19 @@ BuildRequires:	kdelibs4-devel
 BuildRequires:	pkgconfig(qimageblitz)
 Requires:	%{name}-pdf = %{EVRD}
 Requires:	%{name}-postscript = %{EVRD}
+Suggests:	%{name}-chm = %{EVRD}
+Suggests:	%{name}-comicbook = %{EVRD}
+Suggests:	%{name}-djvu = %{EVRD}
+Suggests:	%{name}-dvi = %{EVRD}
+Suggests:	%{name}-epub = %{EVRD}
+Suggests:	%{name}-fax = %{EVRD}
+Suggests:	%{name}-fb = %{EVRD}
+Suggests:	%{name}-kimgio = %{EVRD}
+Suggests:	%{name}-ooo = %{EVRD}
+Suggests:	%{name}-plucker = %{EVRD}
+Suggests:	%{name}-tiff = %{EVRD}
+Suggests:	%{name}-txt = %{EVRD}
+Suggests:	%{name}-xps = %{EVRD}
 
 %description
 Okular is a universal document viewer based on KPDF for KDE 4.
@@ -365,6 +378,7 @@ based on Okular.
 - New version 4.11.0
 - New library major 3
 - New subpackage txt
+- Add Suggests for all subpackages
 - Update files list
 
 * Wed Jul 03 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.10.5-1
