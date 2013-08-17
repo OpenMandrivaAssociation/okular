@@ -265,13 +265,14 @@ XPS display support for Okular
 
 #------------------------------------------------
 
-%define okularcore_major 2
+%define okularcore_major 3
 %define libokularcore %mklibname okularcore %{okularcore_major}
 
 %package -n %{libokularcore}
 Summary:	Runtime library for okular
 Group:		System/Libraries
 Obsoletes:	%{_lib}okularcore1 < 2:4.10.0
+Obsoletes:	%{_lib}okularcore2 < 2:4.11.0
 
 %description -n %{libokularcore}
 Runtime library for Okular.
@@ -316,6 +317,7 @@ based on okular.
 %changelog
 * Wed Aug 14 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.11.0-1
 - New version 4.11.0
+- New library major 3
 
 * Wed Jul 03 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.10.5-1
 - New version 4.10.5
