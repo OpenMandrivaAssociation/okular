@@ -58,10 +58,12 @@ BuildRequires:	pkgconfig(poppler-qt4)
 PDF display support for Okular.
 
 %files pdf
+%{_kde_datadir}/config.kcfg/pdfsettings.kcfg
 %{_kde_libdir}/kde4/okularGenerator_poppler.so
 %{_kde_services}/libokularGenerator_poppler.desktop
 %{_kde_services}/okularPoppler.desktop
 %{_kde_applicationsdir}/okularApplication_pdf.desktop
+%{_kde_applicationsdir}/active-documentviewer_pdf.desktop
 
 #------------------------------------------------
 
@@ -81,6 +83,7 @@ CHM (Microsoft Help) display support for Okular.
 %{_kde_services}/libokularGenerator_chmlib.desktop
 %{_kde_services}/okularChm.desktop
 %{_kde_applicationsdir}/okularApplication_chm.desktop
+%{_kde_applicationsdir}/active-documentviewer_chm.desktop
 
 #------------------------------------------------
 
@@ -97,6 +100,7 @@ ComicBook display support for Okular.
 %{_kde_services}/libokularGenerator_comicbook.desktop
 %{_kde_services}/okularComicbook.desktop
 %{_kde_applicationsdir}/okularApplication_comicbook.desktop
+%{_kde_applicationsdir}/active-documentviewer_comicbook.desktop
 
 #------------------------------------------------
 
@@ -114,6 +118,7 @@ DjVu display support for Okular.
 %{_kde_services}/libokularGenerator_djvu.desktop
 %{_kde_services}/okularDjvu.desktop
 %{_kde_applicationsdir}/okularApplication_djvu.desktop
+%{_kde_applicationsdir}/active-documentviewer_djvu.desktop
 
 #------------------------------------------------
 
@@ -130,6 +135,7 @@ DVI display support for Okular.
 %{_kde_services}/libokularGenerator_dvi.desktop
 %{_kde_services}/okularDvi.desktop
 %{_kde_applicationsdir}/okularApplication_dvi.desktop
+%{_kde_applicationsdir}/active-documentviewer_dvi.desktop
 
 #------------------------------------------------
 
@@ -147,6 +153,7 @@ EPub display support for Okular.
 %{_kde_services}/libokularGenerator_epub.desktop
 %{_kde_services}/okularEPub.desktop
 %{_kde_applicationsdir}/okularApplication_epub.desktop
+%{_kde_applicationsdir}/active-documentviewer_epub.desktop
 
 #------------------------------------------------
 
@@ -163,6 +170,7 @@ Fax display support for Okular.
 %{_kde_services}/libokularGenerator_fax.desktop
 %{_kde_services}/okularFax.desktop
 %{_kde_applicationsdir}/okularApplication_fax.desktop
+%{_kde_applicationsdir}/active-documentviewer_fax.desktop
 
 #------------------------------------------------
 
@@ -179,6 +187,7 @@ FeedBooks display support for Okular.
 %{_kde_services}/libokularGenerator_fb.desktop
 %{_kde_services}/okularFb.desktop
 %{_kde_applicationsdir}/okularApplication_fb.desktop
+%{_kde_applicationsdir}/active-documentviewer_fb.desktop
 
 #------------------------------------------------
 
@@ -195,6 +204,7 @@ KImgIO display support for Okular.
 %{_kde_services}/libokularGenerator_kimgio.desktop
 %{_kde_services}/okularKimgio.desktop
 %{_kde_applicationsdir}/okularApplication_kimgio.desktop
+%{_kde_applicationsdir}/active-documentviewer_kimgio.desktop
 
 #------------------------------------------------
 
@@ -211,6 +221,7 @@ OpenOffice.org/LibreOffice display support for Okular.
 %{_kde_services}/libokularGenerator_ooo.desktop
 %{_kde_services}/okularOoo.desktop
 %{_kde_applicationsdir}/okularApplication_ooo.desktop
+%{_kde_applicationsdir}/active-documentviewer_ooo.desktop
 
 #------------------------------------------------
 
@@ -227,6 +238,7 @@ Plucker display support for Okular.
 %{_kde_services}/libokularGenerator_plucker.desktop
 %{_kde_services}/okularPlucker.desktop
 %{_kde_applicationsdir}/okularApplication_plucker.desktop
+%{_kde_applicationsdir}/active-documentviewer_plucker.desktop
 
 #------------------------------------------------
 
@@ -244,6 +256,7 @@ PostScript display support for Okular.
 %{_kde_services}/libokularGenerator_ghostview.desktop
 %{_kde_services}/okularGhostview.desktop
 %{_kde_applicationsdir}/okularApplication_ghostview.desktop
+%{_kde_applicationsdir}/active-documentviewer_ghostview.desktop
 
 #------------------------------------------------
 
@@ -260,6 +273,7 @@ TIFF display support for Okular.
 %{_kde_services}/libokularGenerator_tiff.desktop
 %{_kde_services}/okularTiff.desktop
 %{_kde_applicationsdir}/okularApplication_tiff.desktop
+%{_kde_applicationsdir}/active-documentviewer_tiff.desktop
 
 #------------------------------------------------
 
@@ -293,6 +307,7 @@ XPS display support for Okular.
 %{_kde_services}/libokularGenerator_xps.desktop
 %{_kde_services}/okularXps.desktop
 %{_kde_applicationsdir}/okularApplication_xps.desktop
+%{_kde_applicationsdir}/active-documentviewer_xps.desktop
 
 #------------------------------------------------
 
@@ -350,6 +365,7 @@ based on Okular.
 - New version 4.11.0
 - New library major 3
 - New subpackage txt
+- Update files list
 
 * Wed Jul 03 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.10.5-1
 - New version 4.10.5
