@@ -47,6 +47,7 @@ the supported formats and the features supported in each of them.
 %{_kde_mandir}/man1/okular.1*
 
 #------------------------------------------------
+
 %package pdf
 Summary:	PDF display support for Okular
 Group:		Graphical desktop/KDE
@@ -54,7 +55,7 @@ Requires:	%{name} = %{EVRD}
 BuildRequires:	pkgconfig(poppler-qt4)
 
 %description pdf
-PDF display support for Okular
+PDF display support for Okular.
 
 %files pdf
 %{_kde_libdir}/kde4/okularGenerator_poppler.so
@@ -63,6 +64,7 @@ PDF display support for Okular
 %{_kde_applicationsdir}/okularApplication_pdf.desktop
 
 #------------------------------------------------
+
 %package chm
 Summary:	CHM (Microsoft Help) display support for Okular
 Group:		Graphical desktop/KDE
@@ -70,7 +72,7 @@ Requires:	%{name} = %{EVRD}
 BuildRequires:	chmlib-devel
 
 %description chm
-CHM (Microsoft Help) display support for Okular
+CHM (Microsoft Help) display support for Okular.
 
 %files chm
 %{_kde_libdir}/kde4/kio_msits.so
@@ -81,13 +83,14 @@ CHM (Microsoft Help) display support for Okular
 %{_kde_applicationsdir}/okularApplication_chm.desktop
 
 #------------------------------------------------
+
 %package comicbook
 Summary:	ComicBook display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
 
 %description comicbook
-ComicBook display support for Okular
+ComicBook display support for Okular.
 
 %files comicbook
 %{_kde_libdir}/kde4/okularGenerator_comicbook.so
@@ -96,6 +99,7 @@ ComicBook display support for Okular
 %{_kde_applicationsdir}/okularApplication_comicbook.desktop
 
 #------------------------------------------------
+
 %package djvu
 Summary:	DjVu display support for Okular
 Group:		Graphical desktop/KDE
@@ -103,7 +107,7 @@ Requires:	%{name} = %{EVRD}
 BuildRequires:	pkgconfig(ddjvuapi)
 
 %description djvu
-DjVu display support for Okular
+DjVu display support for Okular.
 
 %files djvu
 %{_kde_libdir}/kde4/okularGenerator_djvu.so
@@ -112,13 +116,14 @@ DjVu display support for Okular
 %{_kde_applicationsdir}/okularApplication_djvu.desktop
 
 #------------------------------------------------
+
 %package dvi
 Summary:	DVI display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
 
 %description dvi
-DVI display support for Okular
+DVI display support for Okular.
 
 %files dvi
 %{_kde_libdir}/kde4/okularGenerator_dvi.so
@@ -127,6 +132,7 @@ DVI display support for Okular
 %{_kde_applicationsdir}/okularApplication_dvi.desktop
 
 #------------------------------------------------
+
 %package epub
 Summary:	EPub display support for Okular
 Group:		Graphical desktop/KDE
@@ -134,7 +140,7 @@ Requires:	%{name} = %{EVRD}
 BuildRequires:	ebook-tools-devel
 
 %description epub
-EPub display support for Okular
+EPub display support for Okular.
 
 %files epub
 %{_kde_libdir}/kde4/okularGenerator_epub.so
@@ -143,13 +149,14 @@ EPub display support for Okular
 %{_kde_applicationsdir}/okularApplication_epub.desktop
 
 #------------------------------------------------
+
 %package fax
 Summary:	Fax display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
 
 %description fax
-Fax display support for Okular
+Fax display support for Okular.
 
 %files fax
 %{_kde_libdir}/kde4/okularGenerator_fax.so
@@ -158,13 +165,14 @@ Fax display support for Okular
 %{_kde_applicationsdir}/okularApplication_fax.desktop
 
 #------------------------------------------------
+
 %package fb
 Summary:	FeedBooks display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
 
 %description fb
-FeedBooks display support for Okular
+FeedBooks display support for Okular.
 
 %files fb
 %{_kde_libdir}/kde4/okularGenerator_fb.so
@@ -173,29 +181,14 @@ FeedBooks display support for Okular
 %{_kde_applicationsdir}/okularApplication_fb.desktop
 
 #------------------------------------------------
-%package postscript
-Summary:	PostScript display support for Okular
-Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
-BuildRequires:	pkgconfig(libspectre)
 
-%description postscript
-PostScript display support for Okular
-
-%files postscript
-%{_kde_libdir}/kde4/okularGenerator_ghostview.so
-%{_kde_services}/libokularGenerator_ghostview.desktop
-%{_kde_services}/okularGhostview.desktop
-%{_kde_applicationsdir}/okularApplication_ghostview.desktop
-
-#------------------------------------------------
 %package kimgio
 Summary:	KImgIO display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
 
 %description kimgio
-KImgIO display support for Okular
+KImgIO display support for Okular.
 
 %files kimgio
 %{_kde_libdir}/kde4/okularGenerator_kimgio.so
@@ -204,13 +197,14 @@ KImgIO display support for Okular
 %{_kde_applicationsdir}/okularApplication_kimgio.desktop
 
 #------------------------------------------------
+
 %package ooo
 Summary:	OpenOffice.Org/LibreOffice display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
 
 %description ooo
-OpenOffice.org/LibreOffice display support for Okular
+OpenOffice.org/LibreOffice display support for Okular.
 
 %files ooo
 %{_kde_libdir}/kde4/okularGenerator_ooo.so
@@ -219,13 +213,14 @@ OpenOffice.org/LibreOffice display support for Okular
 %{_kde_applicationsdir}/okularApplication_ooo.desktop
 
 #------------------------------------------------
+
 %package plucker
 Summary:	Plucker display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
 
 %description plucker
-Plucker display support for Okular
+Plucker display support for Okular.
 
 %files plucker
 %{_libdir}/kde4/okularGenerator_plucker.so
@@ -234,13 +229,31 @@ Plucker display support for Okular
 %{_kde_applicationsdir}/okularApplication_plucker.desktop
 
 #------------------------------------------------
+
+%package postscript
+Summary:	PostScript display support for Okular
+Group:		Graphical desktop/KDE
+Requires:	%{name} = %{EVRD}
+BuildRequires:	pkgconfig(libspectre)
+
+%description postscript
+PostScript display support for Okular.
+
+%files postscript
+%{_kde_libdir}/kde4/okularGenerator_ghostview.so
+%{_kde_services}/libokularGenerator_ghostview.desktop
+%{_kde_services}/okularGhostview.desktop
+%{_kde_applicationsdir}/okularApplication_ghostview.desktop
+
+#------------------------------------------------
+
 %package tiff
 Summary:	TIFF display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
 
 %description tiff
-TIFF display support for Okular
+TIFF display support for Okular.
 
 %files tiff
 %{_kde_libdir}/kde4/okularGenerator_tiff.so
@@ -249,13 +262,31 @@ TIFF display support for Okular
 %{_kde_applicationsdir}/okularApplication_tiff.desktop
 
 #------------------------------------------------
+
+%package txt
+Summary:	TXT display support for Okular
+Group:		Graphical desktop/KDE
+Requires:	%{name} = %{EVRD}
+
+%description txt
+TXT display support for Okular.
+
+%files txt
+%{_kde_libdir}/kde4/okularGenerator_txt.so
+%{_kde_services}/libokularGenerator_txt.desktop
+%{_kde_services}/okularTxt.desktop
+%{_kde_applicationsdir}/active-documentviewer_txt.desktop
+%{_kde_applicationsdir}/okularApplication_txt.desktop
+
+#------------------------------------------------
+
 %package xps
 Summary:	XPS display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
 
 %description xps
-XPS display support for Okular
+XPS display support for Okular.
 
 %files xps
 %{_kde_libdir}/kde4/okularGenerator_xps.so
@@ -293,7 +324,7 @@ Requires:	ebook-tools-devel
 
 %description devel
 This package contains header files needed if you wish to build applications
-based on okular.
+based on Okular.
 
 %files devel
 %{_includedir}/%{name}
@@ -318,6 +349,7 @@ based on okular.
 * Wed Aug 14 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.11.0-1
 - New version 4.11.0
 - New library major 3
+- New subpackage txt
 
 * Wed Jul 03 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.10.5-1
 - New version 4.10.5
