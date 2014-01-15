@@ -15,6 +15,8 @@ URL:		http://www.kde.org/applications/graphics/okular/
 Source0:	ftp://ftp.kde.org/pub/kde/%{ftpdir}/%{version}/src/%{name}-%{version}.tar.xz
 Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs4-devel
+BuildRequires:	qmobipocket-devel
+BuildRequires:	pkgconfig(libkactivities)
 BuildRequires:	pkgconfig(qimageblitz)
 Requires:	%{name}-pdf = %{EVRD}
 Requires:	%{name}-postscript = %{EVRD}
@@ -208,6 +210,7 @@ FeedBooks display support for Okular.
 Summary:	KImgIO display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
+BuildRequires:	pkgconfig(libkexiv2)
 
 %description kimgio
 KImgIO display support for Okular.
@@ -376,6 +379,7 @@ based on Okular.
 %changelog
 * Tue Jan 14 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.12.1-1
 - New version 4.12.1
+- Update BuildRequires
 
 * Wed Dec 04 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.11.4-1
 - New version 4.11.4
