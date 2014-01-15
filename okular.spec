@@ -15,7 +15,6 @@ URL:		http://www.kde.org/applications/graphics/okular/
 Source0:	ftp://ftp.kde.org/pub/kde/%{ftpdir}/%{version}/src/%{name}-%{version}.tar.xz
 Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs4-devel
-BuildRequires:	qmobipocket-devel
 BuildRequires:	pkgconfig(libkactivities)
 BuildRequires:	pkgconfig(qimageblitz)
 Requires:	%{name}-pdf = %{EVRD}
@@ -28,6 +27,7 @@ Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fax = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
 Suggests:	%{name}-kimgio = %{EVRD}
+Suggests:	%{name}-mobipocket = %{EVRD}
 Suggests:	%{name}-ooo = %{EVRD}
 Suggests:	%{name}-plucker = %{EVRD}
 Suggests:	%{name}-tiff = %{EVRD}
@@ -224,6 +224,24 @@ KImgIO display support for Okular.
 
 #------------------------------------------------
 
+%package mobipocket
+Summary:	Mobipocket display support for Okular
+Group:		Graphical desktop/KDE
+Requires:	%{name} = %{EVRD}
+BuildRequires:	qmobipocket-devel
+Conflicts:	kdegraphics-mobipocket < 2:4.12.1
+
+%description mobipocket
+Mobipocket display support for Okular.
+
+%files mobipocket
+%{_kde_libdir}/kde4/okularGenerator_mobi.so
+%{_kde_services}/libokularGenerator_mobi.desktop
+%{_kde_services}/okularMobi.desktop
+%{_kde_applicationsdir}/okularApplication_mobi.desktop
+
+#------------------------------------------------
+
 %package ooo
 Summary:	OpenOffice.Org/LibreOffice display support for Okular
 Group:		Graphical desktop/KDE
@@ -380,6 +398,7 @@ based on Okular.
 * Tue Jan 14 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.12.1-1
 - New version 4.12.1
 - Update BuildRequires
+- New mobipocket subpackages (moved from kdegraphics-mobipocket)
 
 * Wed Dec 04 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.11.4-1
 - New version 4.11.4
