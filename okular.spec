@@ -1,6 +1,6 @@
 Summary:	A universal document viewer
 Name:		okular
-Version:	4.12.2
+Version:	4.12.3
 Release:	1
 Epoch:		2
 Group:		Graphical desktop/KDE
@@ -395,6 +395,9 @@ based on Okular.
 %makeinstall_std -C build
 
 %changelog
+* Tue Mar 04 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.12.3-1
+- New version 4.12.3
+
 * Tue Feb 04 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.12.2-1
 - New version 4.12.2
 
