@@ -18,6 +18,7 @@ BuildRequires:	kdelibs4-devel
 BuildRequires:	pkgconfig(kscreen)
 BuildRequires:	pkgconfig(libkactivities)
 BuildRequires:	pkgconfig(qimageblitz)
+BuildRequires:	pkgconfig(QJson)
 Requires:	%{name}-pdf = %{EVRD}
 Requires:	%{name}-postscript = %{EVRD}
 Suggests:	%{name}-chm = %{EVRD}
@@ -399,7 +400,7 @@ based on Okular.
 %changelog
 * Wed Jun 11 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.13.2-1
 - New version 4.13.2
-- Add pkgconfig(kscreen) to BuildRequires
+- Add pkgconfig(kscreen) and pkgconfig(QJson) to BuildRequires
 - New library major 4
 
 * Wed Apr 02 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.12.4-1
