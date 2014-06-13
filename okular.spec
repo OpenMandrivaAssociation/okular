@@ -15,6 +15,7 @@ URL:		http://www.kde.org/applications/graphics/okular/
 Source0:	ftp://ftp.kde.org/pub/kde/%{ftpdir}/%{version}/src/%{name}-%{version}.tar.xz
 Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs4-devel
+BuildRequires:	pkgconfig(kscreen)
 BuildRequires:	pkgconfig(libkactivities)
 BuildRequires:	pkgconfig(qimageblitz)
 Requires:	%{name}-pdf = %{EVRD}
@@ -397,6 +398,7 @@ based on Okular.
 %changelog
 * Wed Jun 11 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.13.2-1
 - New version 4.13.2
+- Add pkgconfig(kscreen) to BuildRequires
 
 * Wed Apr 02 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.12.4-1
 - New version 4.12.4
