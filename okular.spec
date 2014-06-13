@@ -346,7 +346,7 @@ XPS display support for Okular.
 
 #------------------------------------------------
 
-%define okularcore_major 3
+%define okularcore_major 4
 %define libokularcore %mklibname okularcore %{okularcore_major}
 
 %package -n %{libokularcore}
@@ -354,6 +354,7 @@ Summary:	Runtime library for okular
 Group:		System/Libraries
 Obsoletes:	%{_lib}okularcore1 < 2:4.10.0
 Obsoletes:	%{_lib}okularcore2 < 2:4.11.0
+Obsoletes:	%{_lib}okularcore3 < 2:4.13.0
 
 %description -n %{libokularcore}
 Runtime library for Okular.
@@ -399,6 +400,7 @@ based on Okular.
 * Wed Jun 11 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.13.2-1
 - New version 4.13.2
 - Add pkgconfig(kscreen) to BuildRequires
+- New library major 4
 
 * Wed Apr 02 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.12.4-1
 - New version 4.12.4
