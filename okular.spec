@@ -1,6 +1,6 @@
 Summary:	A universal document viewer
 Name:		okular
-Version:	4.12.4
+Version:	4.13.2
 Release:	1
 Epoch:		2
 Group:		Graphical desktop/KDE
@@ -15,8 +15,10 @@ URL:		http://www.kde.org/applications/graphics/okular/
 Source0:	ftp://ftp.kde.org/pub/kde/%{ftpdir}/%{version}/src/%{name}-%{version}.tar.xz
 Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs4-devel
+BuildRequires:	pkgconfig(kscreen)
 BuildRequires:	pkgconfig(libkactivities)
 BuildRequires:	pkgconfig(qimageblitz)
+BuildRequires:	pkgconfig(QJson)
 Requires:	%{name}-pdf = %{EVRD}
 Requires:	%{name}-postscript = %{EVRD}
 Suggests:	%{name}-chm = %{EVRD}
@@ -345,7 +347,7 @@ XPS display support for Okular.
 
 #------------------------------------------------
 
-%define okularcore_major 3
+%define okularcore_major 4
 %define libokularcore %mklibname okularcore %{okularcore_major}
 
 %package -n %{libokularcore}
@@ -353,6 +355,7 @@ Summary:	Runtime library for okular
 Group:		System/Libraries
 Obsoletes:	%{_lib}okularcore1 < 2:4.10.0
 Obsoletes:	%{_lib}okularcore2 < 2:4.11.0
+Obsoletes:	%{_lib}okularcore3 < 2:4.13.0
 
 %description -n %{libokularcore}
 Runtime library for Okular.
@@ -395,6 +398,11 @@ based on Okular.
 %makeinstall_std -C build
 
 %changelog
+* Wed Jun 11 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.13.2-1
+- New version 4.13.2
+- Add pkgconfig(kscreen) and pkgconfig(QJson) to BuildRequires
+- New library major 4
+
 * Wed Apr 02 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.12.4-1
 - New version 4.12.4
 
