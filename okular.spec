@@ -1,7 +1,7 @@
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 Summary:	A universal document viewer
 Name:		okular
-Version:	14.11.97
+Version:	14.12.0
 Release:	1
 Epoch:		2
 License:	GPLv2+
@@ -342,7 +342,7 @@ XPS display support for Okular.
 
 #------------------------------------------------
 
-%define okularcore_major 5
+%define okularcore_major 6
 %define libokularcore %mklibname okularcore %{okularcore_major}
 
 %package -n %{libokularcore}
@@ -394,8 +394,8 @@ based on Okular.
 %makeinstall_std -C build
 
 %changelog
-* Tue Nov 11 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:14.11.97-1
-- New version 14.11.97
+* Tue Nov 11 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:14.12.0-1
+- New version 14.12.0
 
 * Mon Oct 27 2014 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2:4.14.2-2
 - Use pkgconfig(qimageblitz) < 5.0.0 to force Qt4 version
