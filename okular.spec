@@ -1,8 +1,8 @@
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 Summary:	A universal document viewer
 Name:		okular
-Version:	15.04.3
-Release:	3
+Version:	15.08.0
+Release:	1
 Epoch:		2
 License:	GPLv2+
 Group:		Graphical desktop/KDE
@@ -11,7 +11,7 @@ Source0:	fhttp://download.kde.org/%{stable}/applications/%{version}/src/%{name}-
 Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs-devel
 BuildRequires:	pkgconfig(kscreen)
-BuildRequires:	pkgconfig(libkactivities)
+#BuildRequires:	pkgconfig(libkactivities)
 BuildRequires:	pkgconfig(qimageblitz) < 5.0.0
 BuildRequires:	pkgconfig(QJson)
 Requires:	%{name}-pdf = %{EVRD}
@@ -385,7 +385,7 @@ based on Okular.
 %prep
 %setup -q
 %patch0 -p2
-
+sed -i '1s/^/cmake_minimum_required(VERSION 3.1)\n/' CMakeLists.txt
 %build
 %cmake_kde4
 %make
