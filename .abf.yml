@@ -1,4 +1,5 @@
 removed_sources:
   okular-15.04.3.tar.xz: 65b934aad6a57eeb60a8b6e78c6f792b75f5b77b
-sources:
   okular-15.08.0.tar.xz: 4e1eee8bd9f931cf60cf9ea8af9244cc37e3170b
+sources:
+  okular-15.08.1.tar.xz: 87abdd8efc8520cddf686b220b83fe3290f8ef14
