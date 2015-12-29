@@ -2,7 +2,7 @@
 Summary:	A universal document viewer
 Name:		okular
 Version:	15.12.0
-Release:	1
+Release:	2
 Epoch:		2
 License:	GPLv2+
 Group:		Graphical desktop/KDE
