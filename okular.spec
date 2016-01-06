@@ -42,7 +42,7 @@ The document format handlers page has a chart describing in more detail
 the supported formats and the features supported in each of them.
 
 %files
-%doc AUTHORS COPYING TODO VERSION
+%doc AUTHORS COPYING TODO
 %doc %{_kde_docdir}/HTML/en/okular/
 %{_kde_bindir}/okular
 %{_kde_libdir}/kde4/okularpart.so
