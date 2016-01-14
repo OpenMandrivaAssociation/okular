@@ -23,7 +23,7 @@ Suggests:	%{name}-dvi = %{EVRD}
 Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fax = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
-Obsoletes	%{name}-kimgio < %{EVRD}
+Obsoletes:	%{name}-kimgio < %{EVRD}
 Suggests:	%{name}-mobipocket = %{EVRD}
 Suggests:	%{name}-ooo = %{EVRD}
 Suggests:	%{name}-plucker = %{EVRD}
