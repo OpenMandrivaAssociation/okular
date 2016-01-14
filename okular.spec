@@ -23,7 +23,7 @@ Suggests:	%{name}-dvi = %{EVRD}
 Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fax = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
-Suggests:	%{name}-kimgio = %{EVRD}
+Obsoletes	%{name}-kimgio < %{EVRD}
 Suggests:	%{name}-mobipocket = %{EVRD}
 Suggests:	%{name}-ooo = %{EVRD}
 Suggests:	%{name}-plucker = %{EVRD}
@@ -203,21 +203,21 @@ FeedBooks display support for Okular.
 
 #------------------------------------------------
 
-%package kimgio
-Summary:	KImgIO display support for Okular
-Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+#%package kimgio
+#Summary:	KImgIO display support for Okular
+#Group:		Graphical desktop/KDE
+#Requires:	%{name} = %{EVRD}
 #BuildRequires:	pkgconfig(libkexiv2)
 
-%description kimgio
-KImgIO display support for Okular.
+#%description kimgio
+#KImgIO display support for Okular.
 
-%files kimgio
-%{_kde_libdir}/kde4/okularGenerator_kimgio.so
-%{_kde_services}/libokularGenerator_kimgio.desktop
-%{_kde_services}/okularKimgio.desktop
-%{_kde_applicationsdir}/okularApplication_kimgio.desktop
-%{_kde_applicationsdir}/active-documentviewer_kimgio.desktop
+#%files kimgio
+#%{_kde_libdir}/kde4/okularGenerator_kimgio.so
+#%{_kde_services}/libokularGenerator_kimgio.desktop
+#%{_kde_services}/okularKimgio.desktop
+#%{_kde_applicationsdir}/okularApplication_kimgio.desktop
+#%{_kde_applicationsdir}/active-documentviewer_kimgio.desktop
 
 #------------------------------------------------
 
@@ -342,7 +342,7 @@ XPS display support for Okular.
 
 #------------------------------------------------
 
-%define okularcore_major 6
+%define okularcore_major 7
 %define libokularcore %mklibname okularcore %{okularcore_major}
 
 %package -n %{libokularcore}
@@ -352,6 +352,8 @@ Obsoletes:	%{_lib}okularcore1 < 2:4.10.0
 Obsoletes:	%{_lib}okularcore2 < 2:4.11.0
 Obsoletes:	%{_lib}okularcore3 < 2:4.13.0
 Obsoletes:	%{_lib}okularcore4 < 2:4.14.0
+Obsoletes:	%{_lib}okularcore5 < 2:15.12.1
+Obsoletes:	%{_lib}okularcore6 < 2:15.12.1
 
 %description -n %{libokularcore}
 Runtime library for Okular.
