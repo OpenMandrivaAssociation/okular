@@ -207,7 +207,7 @@ FeedBooks display support for Okular.
 Summary:	KImgIO display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
-BuildRequires:	pkgconfig(libkexiv2)
+#BuildRequires:	pkgconfig(libkexiv2)
 
 %description kimgio
 KImgIO display support for Okular.
@@ -366,7 +366,7 @@ Summary:	Devel stuff for kdegraphics
 Group:		Development/KDE and Qt
 Conflicts:	kdegraphics4-devel < 2:4.6.90
 Requires:	%{libokularcore} = %{EVRD}
-Requires:	kdelibs4-devel
+Requires:	kdelibs-devel
 Requires:	chmlib-devel
 Requires:	ebook-tools-devel
 
