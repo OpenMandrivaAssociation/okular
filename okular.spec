@@ -1,14 +1,19 @@
+%define snapshot 20160531
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 Summary:	A universal document viewer
 Name:		okular
-Version:	16.04.1
+Version:	16.06
+%if 0%{snapshot}
+Release:	0.%{snapshot}.1
+Source0:	%{name}-%{snapshot}.tar.xz
+%else
 Release:	1
+Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
+%endif
 Epoch:		2
 License:	GPLv2+
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org/applications/graphics/okular/
-Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
-Patch0:		kdegraphics-4.6.4-okularxdg.patch
 BuildRequires:	kdelibs-devel
 BuildRequires:	pkgconfig(kscreen)
 #BuildRequires:	pkgconfig(libkactivities)
@@ -24,7 +29,7 @@ Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fax = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
 Obsoletes:	%{name}-kimgio < %{EVRD}
-Suggests:	%{name}-mobipocket = %{EVRD}
+Obsoletes:	%{name}-mobipocket < %{EVRD}
 Suggests:	%{name}-ooo = %{EVRD}
 Suggests:	%{name}-plucker = %{EVRD}
 Suggests:	%{name}-tiff = %{EVRD}
@@ -43,20 +48,24 @@ the supported formats and the features supported in each of them.
 
 %files
 %doc AUTHORS COPYING TODO
-%doc %{_kde_docdir}/HTML/en/okular/
-%{_kde_bindir}/okular
-%{_kde_libdir}/kde4/okularpart.so
-%{_kde_libdir}/kde4/imports/org/kde/okular
-%{_kde_applicationsdir}/okular.desktop
-%{_kde_appsdir}/okular
-%{_kde_appsdir}/kconf_update/okular.upd
-%{_kde_datadir}/config.kcfg/okular.kcfg
-%{_kde_datadir}/config.kcfg/gssettings.kcfg
-%{_kde_datadir}/config.kcfg/okular_core.kcfg
-%{_kde_services}/okular_part.desktop
-%{_kde_servicetypes}/okularGenerator.desktop
-%{_kde_iconsdir}/*/*/*/okular.*
-%{_kde_mandir}/man1/okular.1*
+%doc %{_docdir}/HTML/en/okular/
+%{_sysconfdir}/xdg/okular.categories
+%{_bindir}/okular
+%{_libdir}/qt5/plugins/okularpart.so
+%{_libdir}/qt5/qml/org/kde/okular
+%{_datadir}/applications/org.kde.okular.desktop
+%{_datadir}/applications/org.kde.mobile.okular.desktop
+%{_datadir}/kpackage/genericqml/org.kde.mobile.okular
+%{_datadir}/kservices5/okular_part.desktop
+%{_datadir}/kservicetypes5/okularGenerator.desktop
+%{_datadir}/kxmlgui5/okular
+%{_datadir}/okular
+%{_datadir}/kconf_update/okular.upd
+%{_datadir}/config.kcfg/okular.kcfg
+%{_datadir}/config.kcfg/gssettings.kcfg
+%{_datadir}/config.kcfg/okular_core.kcfg
+%{_datadir}/icons/*/*/*/okular.*
+%{_mandir}/man1/okular.1*
 
 #------------------------------------------------
 
@@ -64,18 +73,31 @@ the supported formats and the features supported in each of them.
 Summary:	PDF display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name} = %{EVRD}
-BuildRequires:	pkgconfig(poppler-qt4)
+BuildRequires:	pkgconfig(poppler-qt5)
 
 %description pdf
 PDF display support for Okular.
 
 %files pdf
-%{_kde_datadir}/config.kcfg/pdfsettings.kcfg
-%{_kde_libdir}/kde4/okularGenerator_poppler.so
-%{_kde_services}/libokularGenerator_poppler.desktop
-%{_kde_services}/okularPoppler.desktop
-%{_kde_applicationsdir}/okularApplication_pdf.desktop
-%{_kde_applicationsdir}/active-documentviewer_pdf.desktop
+%{_datadir}/config.kcfg/pdfsettings.kcfg
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_poppler.so
+%{_datadir}/applications/okularApplication_pdf.desktop
+%{_datadir}/applications/org.kde.mobile.okular_pdf.desktop
+
+#------------------------------------------------
+
+%package plucker
+Summary:	Plucker display support for Okular
+Group:		Graphical desktop/KDE
+Requires:	%{name} = %{EVRD}
+
+%description plucker
+Plucker display support for Okular.
+
+%files plucker
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_plucker.so
+%{_datadir}/applications/okularApplication_plucker.desktop
+%{_datadir}/applications/org.kde.mobile.okular_plucker.desktop
 
 #------------------------------------------------
 
@@ -89,13 +111,11 @@ BuildRequires:	chmlib-devel
 CHM (Microsoft Help) display support for Okular.
 
 %files chm
-%{_kde_libdir}/kde4/kio_msits.so
-%{_kde_libdir}/kde4/okularGenerator_chmlib.so
-%{_kde_services}/msits*
-%{_kde_services}/libokularGenerator_chmlib.desktop
-%{_kde_services}/okularChm.desktop
-%{_kde_applicationsdir}/okularApplication_chm.desktop
-%{_kde_applicationsdir}/active-documentviewer_chm.desktop
+%{_libdir}/qt5/plugins/kio_msits.so
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_chmlib.so
+%{_datadir}/kservices5/msits*
+%{_datadir}/applications/okularApplication_chm.desktop
+%{_datadir}/applications/org.kde.mobile.okular_chm.desktop
 
 #------------------------------------------------
 
@@ -108,11 +128,9 @@ Requires:	%{name} = %{EVRD}
 ComicBook display support for Okular.
 
 %files comicbook
-%{_kde_libdir}/kde4/okularGenerator_comicbook.so
-%{_kde_services}/libokularGenerator_comicbook.desktop
-%{_kde_services}/okularComicbook.desktop
-%{_kde_applicationsdir}/okularApplication_comicbook.desktop
-%{_kde_applicationsdir}/active-documentviewer_comicbook.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_comicbook.so
+%{_datadir}/applications/okularApplication_comicbook.desktop
+%{_datadir}/applications/org.kde.mobile.okular_comicbook.desktop
 
 #------------------------------------------------
 
@@ -126,11 +144,9 @@ BuildRequires:	pkgconfig(ddjvuapi)
 DjVu display support for Okular.
 
 %files djvu
-%{_kde_libdir}/kde4/okularGenerator_djvu.so
-%{_kde_services}/libokularGenerator_djvu.desktop
-%{_kde_services}/okularDjvu.desktop
-%{_kde_applicationsdir}/okularApplication_djvu.desktop
-%{_kde_applicationsdir}/active-documentviewer_djvu.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_djvu.so
+%{_datadir}/applications/okularApplication_djvu.desktop
+%{_datadir}/applications/org.kde.mobile.okular_djvu.desktop
 
 #------------------------------------------------
 
@@ -143,11 +159,9 @@ Requires:	%{name} = %{EVRD}
 DVI display support for Okular.
 
 %files dvi
-%{_kde_libdir}/kde4/okularGenerator_dvi.so
-%{_kde_services}/libokularGenerator_dvi.desktop
-%{_kde_services}/okularDvi.desktop
-%{_kde_applicationsdir}/okularApplication_dvi.desktop
-%{_kde_applicationsdir}/active-documentviewer_dvi.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_dvi.so
+%{_datadir}/applications/okularApplication_dvi.desktop
+%{_datadir}/applications/org.kde.mobile.okular_dvi.desktop
 
 #------------------------------------------------
 
@@ -161,11 +175,9 @@ BuildRequires:	ebook-tools-devel
 EPub display support for Okular.
 
 %files epub
-%{_kde_libdir}/kde4/okularGenerator_epub.so
-%{_kde_services}/libokularGenerator_epub.desktop
-%{_kde_services}/okularEPub.desktop
-%{_kde_applicationsdir}/okularApplication_epub.desktop
-%{_kde_applicationsdir}/active-documentviewer_epub.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_epub.so
+%{_datadir}/applications/okularApplication_epub.desktop
+%{_datadir}/applications/org.kde.mobile.okular_epub.desktop
 
 #------------------------------------------------
 
@@ -178,11 +190,9 @@ Requires:	%{name} = %{EVRD}
 Fax display support for Okular.
 
 %files fax
-%{_kde_libdir}/kde4/okularGenerator_fax.so
-%{_kde_services}/libokularGenerator_fax.desktop
-%{_kde_services}/okularFax.desktop
-%{_kde_applicationsdir}/okularApplication_fax.desktop
-%{_kde_applicationsdir}/active-documentviewer_fax.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_fax.so
+%{_datadir}/applications/okularApplication_fax.desktop
+%{_datadir}/applications/org.kde.mobile.okular_fax.desktop
 
 #------------------------------------------------
 
@@ -195,32 +205,13 @@ Requires:	%{name} = %{EVRD}
 FeedBooks display support for Okular.
 
 %files fb
-%{_kde_libdir}/kde4/okularGenerator_fb.so
-%{_kde_services}/libokularGenerator_fb.desktop
-%{_kde_services}/okularFb.desktop
-%{_kde_applicationsdir}/okularApplication_fb.desktop
-%{_kde_applicationsdir}/active-documentviewer_fb.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_fb.so
+%{_datadir}/applications/okularApplication_fb.desktop
+%{_datadir}/applications/org.kde.mobile.okular_fb.desktop
 
 #------------------------------------------------
-
-#%package kimgio
-#Summary:	KImgIO display support for Okular
-#Group:		Graphical desktop/KDE
-#Requires:	%{name} = %{EVRD}
-#BuildRequires:	pkgconfig(libkexiv2)
-
-#%description kimgio
-#KImgIO display support for Okular.
-
-#%files kimgio
-#%{_kde_libdir}/kde4/okularGenerator_kimgio.so
-#%{_kde_services}/libokularGenerator_kimgio.desktop
-#%{_kde_services}/okularKimgio.desktop
-#%{_kde_applicationsdir}/okularApplication_kimgio.desktop
-#%{_kde_applicationsdir}/active-documentviewer_kimgio.desktop
-
-#------------------------------------------------
-
+# This may come back in a future release
+%if 0
 %package mobipocket
 Summary:	Mobipocket display support for Okular
 Group:		Graphical desktop/KDE
@@ -232,10 +223,9 @@ Conflicts:	kdegraphics-mobipocket < 2:4.12.1
 Mobipocket display support for Okular.
 
 %files mobipocket
-%{_kde_libdir}/kde4/okularGenerator_mobi.so
-%{_kde_services}/libokularGenerator_mobi.desktop
-%{_kde_services}/okularMobi.desktop
-%{_kde_applicationsdir}/okularApplication_mobi.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_mobi.so
+%{_datadir}/applications/okularApplication_mobi.desktop
+%endif
 
 #------------------------------------------------
 
@@ -248,28 +238,9 @@ Requires:	%{name} = %{EVRD}
 OpenOffice.org/LibreOffice display support for Okular.
 
 %files ooo
-%{_kde_libdir}/kde4/okularGenerator_ooo.so
-%{_kde_services}/libokularGenerator_ooo.desktop
-%{_kde_services}/okularOoo.desktop
-%{_kde_applicationsdir}/okularApplication_ooo.desktop
-%{_kde_applicationsdir}/active-documentviewer_ooo.desktop
-
-#------------------------------------------------
-
-%package plucker
-Summary:	Plucker display support for Okular
-Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
-
-%description plucker
-Plucker display support for Okular.
-
-%files plucker
-%{_libdir}/kde4/okularGenerator_plucker.so
-%{_kde_services}/libokularGenerator_plucker.desktop
-%{_kde_services}/okularPlucker.desktop
-%{_kde_applicationsdir}/okularApplication_plucker.desktop
-%{_kde_applicationsdir}/active-documentviewer_plucker.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_ooo.so
+%{_datadir}/applications/okularApplication_ooo.desktop
+%{_datadir}/applications/org.kde.mobile.okular_ooo.desktop
 
 #------------------------------------------------
 
@@ -283,11 +254,9 @@ BuildRequires:	pkgconfig(libspectre)
 PostScript display support for Okular.
 
 %files postscript
-%{_kde_libdir}/kde4/okularGenerator_ghostview.so
-%{_kde_services}/libokularGenerator_ghostview.desktop
-%{_kde_services}/okularGhostview.desktop
-%{_kde_applicationsdir}/okularApplication_ghostview.desktop
-%{_kde_applicationsdir}/active-documentviewer_ghostview.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_ghostview.so
+%{_datadir}/applications/okularApplication_ghostview.desktop
+%{_datadir}/applications/org.kde.mobile.okular_ghostview.desktop
 
 #------------------------------------------------
 
@@ -300,11 +269,9 @@ Requires:	%{name} = %{EVRD}
 TIFF display support for Okular.
 
 %files tiff
-%{_kde_libdir}/kde4/okularGenerator_tiff.so
-%{_kde_services}/libokularGenerator_tiff.desktop
-%{_kde_services}/okularTiff.desktop
-%{_kde_applicationsdir}/okularApplication_tiff.desktop
-%{_kde_applicationsdir}/active-documentviewer_tiff.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_tiff.so
+%{_datadir}/applications/okularApplication_tiff.desktop
+%{_datadir}/applications/org.kde.mobile.okular_tiff.desktop
 
 #------------------------------------------------
 
@@ -317,11 +284,9 @@ Requires:	%{name} = %{EVRD}
 TXT display support for Okular.
 
 %files txt
-%{_kde_libdir}/kde4/okularGenerator_txt.so
-%{_kde_services}/libokularGenerator_txt.desktop
-%{_kde_services}/okularTxt.desktop
-%{_kde_applicationsdir}/active-documentviewer_txt.desktop
-%{_kde_applicationsdir}/okularApplication_txt.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_txt.so
+%{_datadir}/applications/org.kde.mobile.okular_txt.desktop
+%{_datadir}/applications/okularApplication_txt.desktop
 
 #------------------------------------------------
 
@@ -334,16 +299,14 @@ Requires:	%{name} = %{EVRD}
 XPS display support for Okular.
 
 %files xps
-%{_kde_libdir}/kde4/okularGenerator_xps.so
-%{_kde_services}/libokularGenerator_xps.desktop
-%{_kde_services}/okularXps.desktop
-%{_kde_applicationsdir}/okularApplication_xps.desktop
-%{_kde_applicationsdir}/active-documentviewer_xps.desktop
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_xps.so
+%{_datadir}/applications/okularApplication_xps.desktop
+%{_datadir}/applications/org.kde.mobile.okular_xps.desktop
 
 #------------------------------------------------
 
 %define okularcore_major 7
-%define libokularcore %mklibname okularcore %{okularcore_major}
+%define libokularcore %mklibname Okular5Core %{okularcore_major}
 
 %package -n %{libokularcore}
 Summary:	Runtime library for okular
@@ -354,12 +317,13 @@ Obsoletes:	%{_lib}okularcore3 < 2:4.13.0
 Obsoletes:	%{_lib}okularcore4 < 2:4.14.0
 Obsoletes:	%{_lib}okularcore5 < 2:15.12.1
 Obsoletes:	%{_lib}okularcore6 < 2:15.12.1
+Obsoletes:	%{_lib}okularcore7 < 2:16.06
 
 %description -n %{libokularcore}
 Runtime library for Okular.
 
 %files -n %{libokularcore}
-%{_kde_libdir}/libokularcore.so.%{okularcore_major}*
+%{_libdir}/libOkular5Core.so.%{okularcore_major}*
 
 #-----------------------------------------------------------------------------
 
@@ -368,7 +332,6 @@ Summary:	Devel stuff for kdegraphics
 Group:		Development/KDE and Qt
 Conflicts:	kdegraphics4-devel < 2:4.6.90
 Requires:	%{libokularcore} = %{EVRD}
-Requires:	kdelibs-devel
 Requires:	chmlib-devel
 Requires:	ebook-tools-devel
 
@@ -378,19 +341,22 @@ based on Okular.
 
 %files devel
 %{_includedir}/%{name}
-%{_kde_libdir}/cmake/Okular/OkularConfig.cmake
-%{_kde_libdir}/cmake/Okular/OkularConfigVersion.cmake
-%{_kde_libdir}/libokularcore.so
+%{_libdir}/cmake/Okular5
+%{_libdir}/libOkular5Core.so
 
 #----------------------------------------------------------------------
 
 %prep
+%if 0%{snapshot}
+%setup -qn %{name}
+%else
 %setup -q
-%patch0 -p2
-sed -i '1s/^/cmake_minimum_required(VERSION 3.1)\n/' CMakeLists.txt
+%endif
+#sed -i '1s/^/cmake_minimum_required(VERSION 3.1)\n/' CMakeLists.txt
+
 %build
-%cmake_kde4
-%make
+%cmake_kde5
+%ninja
 
 %install
-%makeinstall_std -C build
+%ninja_install -C build
