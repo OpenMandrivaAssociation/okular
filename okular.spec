@@ -36,10 +36,13 @@ BuildRequires:	cmake(KF5JS)
 BuildRequires:	cmake(KF5KDELibs4Support)
 BuildRequires:	cmake(KF5KIO)
 BuildRequires:	cmake(KF5Parts)
+BuildRequires:	cmake(KF5Pty)
 BuildRequires:	cmake(KF5ThreadWeaver)
 BuildRequires:	cmake(KF5Wallet)
 BuildRequires:	cmake(KF5KHtml)
 BuildRequires:	cmake(Phonon4Qt5)
+BuildRequires:	cmake(QMobipocket)
+BuildRequires:	cmake(Qca-qt5)
 Requires:	%{name}-pdf = %{EVRD}
 Requires:	%{name}-postscript = %{EVRD}
 Suggests:	%{name}-chm = %{EVRD}
