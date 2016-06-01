@@ -43,6 +43,7 @@ BuildRequires:	cmake(KF5KHtml)
 BuildRequires:	cmake(Phonon4Qt5)
 BuildRequires:	cmake(QMobipocket)
 BuildRequires:	cmake(Qca-qt5)
+BuildRequires:	cmake(KF5KExiv2)
 Requires:	%{name}-pdf = %{EVRD}
 Requires:	%{name}-postscript = %{EVRD}
 Suggests:	%{name}-chm = %{EVRD}
