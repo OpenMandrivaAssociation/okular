@@ -53,7 +53,7 @@ Suggests:	%{name}-dvi = %{EVRD}
 Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fax = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
-Obsoletes:	%{name}-kimgio < %{EVRD}
+Suggests:	%{name}-kimgio < %{EVRD}
 Obsoletes:	%{name}-mobipocket < %{EVRD}
 Suggests:	%{name}-ooo = %{EVRD}
 Suggests:	%{name}-plucker = %{EVRD}
@@ -234,6 +234,18 @@ FeedBooks display support for Okular.
 %{_datadir}/applications/okularApplication_fb.desktop
 %{_datadir}/applications/org.kde.mobile.okular_fb.desktop
 
+%package kimgio
+Summary:	KImgIO display support for Okular
+Group:		Graphical desktop/KDE
+Requires:	%{name} = %{EVRD}
+
+%description kimgio
+KImgIO display support for Okular.
+
+%files kimgio
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_kimgio.so
+%{_datadir}/applications/*.desktop
+	
 #------------------------------------------------
 # This may come back in a future release
 %if 0
