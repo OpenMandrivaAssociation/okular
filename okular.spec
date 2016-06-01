@@ -244,7 +244,8 @@ KImgIO display support for Okular.
 
 %files kimgio
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_kimgio.so
-%{_datadir}/applications/*.desktop
+%{_datadir}/applications/okularApplication_kimgio.desktop
+%{_datadir}/applications/org.kde.mobile.okular_kimgio.desktop
 	
 #------------------------------------------------
 # This may come back in a future release
