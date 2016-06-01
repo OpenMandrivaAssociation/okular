@@ -13,12 +13,33 @@ Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%
 Epoch:		2
 License:	GPLv2+
 Group:		Graphical desktop/KDE
-Url:		http://www.kde.org/applications/graphics/okular/
-BuildRequires:	kdelibs-devel
-BuildRequires:	pkgconfig(kscreen)
-#BuildRequires:	pkgconfig(libkactivities)
-BuildRequires:	pkgconfig(qimageblitz) < 5.0.0
-BuildRequires:	pkgconfig(QJson)
+Url:		http://www.kde.org/applications/graphics/okular
+BuildRequires:	pkgconfig(Qt5Core)
+BuildRequires:	pkgconfig(Qt5DBus)
+BuildRequires:	pkgconfig(Qt5Test)
+BuildRequires:	pkgconfig(Qt5Widgets)
+BuildRequires:	pkgconfig(Qt5PrintSupport)
+BuildRequires:	pkgconfig(Qt5Svg)
+BuildRequires:	pkgconfig(Qt5Qml)
+BuildRequires:	pkgconfig(Qt5Quick)
+BuildRequires:	pkgconfig(Qt5TextToSpeech)
+BuildRequires:	cmake(ECM)
+BuildRequires:	cmake(KF5Activities)
+BuildRequires:	cmake(KF5Archive)
+BuildRequires:	cmake(KF5Bookmarks)
+BuildRequires:	cmake(KF5Completion)
+BuildRequires:	cmake(KF5Config)
+BuildRequires:	cmake(KF5ConfigWidgets)
+BuildRequires:	cmake(KF5CoreAddons)
+BuildRequires:	cmake(KF5DBusAddons)
+BuildRequires:	cmake(KF5JS)
+BuildRequires:	cmake(KF5KDELibs4Support)
+BuildRequires:	cmake(KF5KIO)
+BuildRequires:	cmake(KF5Parts)
+BuildRequires:	cmake(KF5ThreadWeaver)
+BuildRequires:	cmake(KF5Wallet)
+BuildRequires:	cmake(KF5KHtml)
+BuildRequires:	cmake(Phonon4Qt5)
 Requires:	%{name}-pdf = %{EVRD}
 Requires:	%{name}-postscript = %{EVRD}
 Suggests:	%{name}-chm = %{EVRD}
@@ -37,7 +58,7 @@ Suggests:	%{name}-txt = %{EVRD}
 Suggests:	%{name}-xps = %{EVRD}
 
 %description
-Okular is a universal document viewer based on KPDF for KDE 4.
+Okular is a universal document viewer based on KPDF for KDE 5.
 
 Okular combines the excellent functionalities of KPDF with the versatility
 of supporting different kind of documents, like PDF, Postscript, DjVu, CHM,
@@ -352,7 +373,6 @@ based on Okular.
 %else
 %setup -q
 %endif
-#sed -i '1s/^/cmake_minimum_required(VERSION 3.1)\n/' CMakeLists.txt
 
 %build
 %cmake_kde5
