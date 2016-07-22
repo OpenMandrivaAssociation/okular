@@ -32,14 +32,15 @@ BuildRequires:	cmake(KF5Config)
 BuildRequires:	cmake(KF5ConfigWidgets)
 BuildRequires:	cmake(KF5CoreAddons)
 BuildRequires:	cmake(KF5DBusAddons)
+BuildRequires:	cmake(KF5IconThemes)
 BuildRequires:	cmake(KF5JS)
 BuildRequires:	cmake(KF5KDELibs4Support)
 BuildRequires:	cmake(KF5KIO)
 BuildRequires:	cmake(KF5Parts)
-BuildRequires:	cmake(KF5Pty)
 BuildRequires:	cmake(KF5ThreadWeaver)
 BuildRequires:	cmake(KF5Wallet)
 BuildRequires:	cmake(KF5KHtml)
+BuildRequires:	cmake(KF5WindowSystem)
 BuildRequires:	cmake(Phonon4Qt5)
 BuildRequires:	cmake(QMobipocket)
 BuildRequires:	cmake(Qca-qt5)
@@ -386,7 +387,7 @@ based on Okular.
 
 %prep
 %if 0%{snapshot}
-%setup -qn %{name}
+%setup -qn %{name}-%{snapshot}
 %else
 %setup -q
 %endif
