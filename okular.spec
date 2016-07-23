@@ -271,7 +271,6 @@ Conflicts:	kdegraphics-mobipocket < 2:4.12.1
 Mobipocket display support for Okular.
 
 %files mobipocket
-%{_datadir}/applications/okularApplication_mobi.desktop
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_mobi.so
 %{_datadir}/applications/okularApplication_mobi.desktop
 %{_datadir}/applications/org.kde.mobile.okular_mobi.desktop
