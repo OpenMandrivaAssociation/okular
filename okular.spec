@@ -110,6 +110,7 @@ PDF display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_poppler.so
 %{_datadir}/applications/okularApplication_pdf.desktop
 %{_datadir}/applications/org.kde.mobile.okular_pdf.desktop
+%{_datadir}/kservices5/okularPoppler.desktop
 
 #------------------------------------------------
 
@@ -125,6 +126,7 @@ Plucker display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_plucker.so
 %{_datadir}/applications/okularApplication_plucker.desktop
 %{_datadir}/applications/org.kde.mobile.okular_plucker.desktop
+%{_datadir}/kservices5/okularPlucker.desktop
 
 #------------------------------------------------
 
@@ -143,6 +145,7 @@ CHM (Microsoft Help) display support for Okular.
 %{_datadir}/kservices5/msits*
 %{_datadir}/applications/okularApplication_chm.desktop
 %{_datadir}/applications/org.kde.mobile.okular_chm.desktop
+%{_datadir}/kservices5/okularChm.desktop
 
 #------------------------------------------------
 
@@ -158,6 +161,7 @@ ComicBook display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_comicbook.so
 %{_datadir}/applications/okularApplication_comicbook.desktop
 %{_datadir}/applications/org.kde.mobile.okular_comicbook.desktop
+%{_datadir}/kservices5/okularComicbook.desktop
 
 #------------------------------------------------
 
@@ -174,6 +178,7 @@ DjVu display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_djvu.so
 %{_datadir}/applications/okularApplication_djvu.desktop
 %{_datadir}/applications/org.kde.mobile.okular_djvu.desktop
+%{_datadir}/kservices5/okularDjvu.desktop
 
 #------------------------------------------------
 
@@ -189,6 +194,7 @@ DVI display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_dvi.so
 %{_datadir}/applications/okularApplication_dvi.desktop
 %{_datadir}/applications/org.kde.mobile.okular_dvi.desktop
+%{_datadir}/kservices5/okularDvi.desktop
 
 #------------------------------------------------
 
@@ -205,6 +211,7 @@ EPub display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_epub.so
 %{_datadir}/applications/okularApplication_epub.desktop
 %{_datadir}/applications/org.kde.mobile.okular_epub.desktop
+%{_datadir}/kservices5/okularEPub.desktop
 
 #------------------------------------------------
 
@@ -220,6 +227,7 @@ Fax display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_fax.so
 %{_datadir}/applications/okularApplication_fax.desktop
 %{_datadir}/applications/org.kde.mobile.okular_fax.desktop
+%{_datadir}/kservices5/okularFax.desktop
 
 #------------------------------------------------
 
@@ -235,6 +243,7 @@ FeedBooks display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_fb.so
 %{_datadir}/applications/okularApplication_fb.desktop
 %{_datadir}/applications/org.kde.mobile.okular_fb.desktop
+%{_datadir}/kservices5/okularFb.desktop
 
 %package kimgio
 Summary:	KImgIO display support for Okular
@@ -248,10 +257,9 @@ KImgIO display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_kimgio.so
 %{_datadir}/applications/okularApplication_kimgio.desktop
 %{_datadir}/applications/org.kde.mobile.okular_kimgio.desktop
-	
+%{_datadir}/kservices5/okularKimgio.desktop
+
 #------------------------------------------------
-# This may come back in a future release
-%if 0
 %package mobipocket
 Summary:	Mobipocket display support for Okular
 Group:		Graphical desktop/KDE
@@ -263,9 +271,11 @@ Conflicts:	kdegraphics-mobipocket < 2:4.12.1
 Mobipocket display support for Okular.
 
 %files mobipocket
+%{_datadir}/applications/okularApplication_mobi.desktop
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_mobi.so
 %{_datadir}/applications/okularApplication_mobi.desktop
-%endif
+%{_datadir}/applications/org.kde.mobile.okular_mobi.desktop
+%{_datadir}/kservices5/okularMobi.desktop
 
 #------------------------------------------------
 
@@ -281,6 +291,7 @@ OpenOffice.org/LibreOffice display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_ooo.so
 %{_datadir}/applications/okularApplication_ooo.desktop
 %{_datadir}/applications/org.kde.mobile.okular_ooo.desktop
+%{_datadir}/kservices5/okularOoo.desktop
 
 #------------------------------------------------
 
@@ -297,6 +308,7 @@ PostScript display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_ghostview.so
 %{_datadir}/applications/okularApplication_ghostview.desktop
 %{_datadir}/applications/org.kde.mobile.okular_ghostview.desktop
+%{_datadir}/kservices5/okularGhostview.desktop
 
 #------------------------------------------------
 
@@ -312,6 +324,7 @@ TIFF display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_tiff.so
 %{_datadir}/applications/okularApplication_tiff.desktop
 %{_datadir}/applications/org.kde.mobile.okular_tiff.desktop
+%{_datadir}/kservices5/okularTiff.desktop
 
 #------------------------------------------------
 
@@ -327,6 +340,7 @@ TXT display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_txt.so
 %{_datadir}/applications/org.kde.mobile.okular_txt.desktop
 %{_datadir}/applications/okularApplication_txt.desktop
+%{_datadir}/kservices5/okularTxt.desktop
 
 #------------------------------------------------
 
@@ -342,6 +356,7 @@ XPS display support for Okular.
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_xps.so
 %{_datadir}/applications/okularApplication_xps.desktop
 %{_datadir}/applications/org.kde.mobile.okular_xps.desktop
+%{_datadir}/kservices5/okularXps.desktop
 
 #------------------------------------------------
 
