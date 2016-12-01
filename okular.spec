@@ -271,6 +271,7 @@ KImgIO display support for Okular.
 %{_datadir}/kservices5/okularKimgio.desktop
 
 #------------------------------------------------
+%if 0
 %package mobipocket
 Summary:	Mobipocket display support for Okular
 Group:		Graphical desktop/KDE
@@ -286,7 +287,7 @@ Mobipocket display support for Okular.
 %{_datadir}/applications/okularApplication_mobi.desktop
 %{_datadir}/applications/org.kde.mobile.okular_mobi.desktop
 %{_datadir}/kservices5/okularMobi.desktop
-
+%endif
 #------------------------------------------------
 
 %package ooo
