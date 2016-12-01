@@ -1,4 +1,4 @@
-%define snapshot 20160722
+%define snapshot %nil
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 Summary:	A universal document viewer
 Name:		okular
@@ -55,7 +55,7 @@ Suggests:	%{name}-dvi = %{EVRD}
 Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fax = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
-Suggests:	%{name}-kimgio < %{EVRD}
+Suggests:	%{name}-kimgio = %{EVRD}
 Obsoletes:	%{name}-mobipocket < %{EVRD}
 Suggests:	%{name}-ooo = %{EVRD}
 Suggests:	%{name}-plucker = %{EVRD}
@@ -406,10 +406,10 @@ based on Okular.
 %else
 %setup -q
 %endif
+%cmake_kde5
 
 %build
-%cmake_kde5
-%ninja
+%ninja -C build
 
 %install
 %ninja_install -C build
