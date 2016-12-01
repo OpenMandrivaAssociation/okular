@@ -1,4 +1,4 @@
-%define snapshot %nil
+%define snapshot 20161201
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 Summary:	A universal document viewer
 Name:		okular
