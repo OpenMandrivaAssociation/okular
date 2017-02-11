@@ -2,7 +2,7 @@
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 Summary:	A universal document viewer
 Name:		okular
-Version:	16.08.3
+Version:	16.12.2
 %if 0%{snapshot}
 Release:	1.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
@@ -56,7 +56,6 @@ Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fax = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
 Suggests:	%{name}-kimgio = %{EVRD}
-Obsoletes:	%{name}-mobipocket < %{EVRD}
 Suggests:	%{name}-ooo = %{EVRD}
 Suggests:	%{name}-plucker = %{EVRD}
 Suggests:	%{name}-tiff = %{EVRD}
@@ -255,6 +254,25 @@ FeedBooks display support for Okular.
 %{_datadir}/metainfo/org.kde.okular-fb.metainfo.xml
 %{_datadir}/kservices5/okularFb.desktop
 
+#------------------------------------------------
+
+%package mobipocket
+Summary:	MobiPocket display support for Okular
+Group:		Graphical desktop/KDE
+Requires:	%{name} = %{EVRD}
+
+%description mobipocket
+MobiPocket display support for Okular.
+
+%files mobipocket
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_mobi.so
+%{_datadir}/applications/okularApplication_mobi.desktop
+%{_datadir}/applications/org.kde.mobile.okular_mobi.desktop
+%{_datadir}/metainfo/org.kde.okular-mobipocket.metainfo.xml
+%{_datadir}/kservices5/okularMobi.desktop
+
+
+#------------------------------------------------
 %package kimgio
 Summary:	KImgIO display support for Okular
 Group:		Graphical desktop/KDE
