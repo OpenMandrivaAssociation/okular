@@ -2,7 +2,7 @@
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 Summary:	A universal document viewer
 Name:		okular
-Version:	17.04.1
+Version:	17.04.2
 %if 0%{snapshot}
 Release:	1.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
