@@ -1,5 +1,9 @@
 %define snapshot %{nil}
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
+%ifarch aarch64
+%global optflags %{optflags} -fuse-ld=bfd
+%endif
+
 Summary:	A universal document viewer
 Name:		okular
 Version:	17.04.2
