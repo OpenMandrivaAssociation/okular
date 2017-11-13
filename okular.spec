@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	17.08.1
+Version:	17.08.3
 %if 0%{snapshot}
 Release:	1.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
@@ -14,6 +14,7 @@ Source0:	%{name}-%{snapshot}.tar.xz
 Release:	1
 Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 %endif
+Patch0:		okular-17.08.3-buildfix.patch
 Epoch:		2
 License:	GPLv2+
 Group:		Graphical desktop/KDE
@@ -46,6 +47,7 @@ BuildRequires:	cmake(KF5ThreadWeaver)
 BuildRequires:	cmake(KF5Wallet)
 BuildRequires:	cmake(KF5KHtml)
 BuildRequires:	cmake(KF5WindowSystem)
+BuildRequires:	cmake(KF5Kirigami2)
 BuildRequires:	cmake(Phonon4Qt5)
 BuildRequires:	cmake(Qca-qt5)
 BuildRequires:	cmake(KF5KExiv2)
@@ -426,6 +428,7 @@ based on Okular.
 %else
 %setup -q
 %endif
+%apply_patches
 %cmake_kde5
 
 %build
