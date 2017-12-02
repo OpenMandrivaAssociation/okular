@@ -6,15 +6,14 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	17.08.3
+Version:	17.11.90
 %if 0%{snapshot}
-Release:	1.%{snapshot}.1
+Release:	0.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
 %else
 Release:	1
 Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 %endif
-Patch0:		okular-17.08.3-buildfix.patch
 Epoch:		2
 License:	GPLv2+
 Group:		Graphical desktop/KDE
@@ -77,7 +76,7 @@ and others.
 The document format handlers page has a chart describing in more detail
 the supported formats and the features supported in each of them.
 
-%files -f okular.lang,org.kde.active.documentviewer.lang
+%files -f okular.lang,org.kde.active.documentviewer.lang,okular_markdown.lang
 %doc AUTHORS COPYING TODO
 %{_sysconfdir}/xdg/okular.categories
 %{_bindir}/okular
@@ -446,6 +445,7 @@ based on Okular.
 %find_lang okular_fictionbook
 %find_lang okular_ghostview
 %find_lang okular_kimgio
+%find_lang okular_markdown
 %find_lang okular_mobi
 %find_lang okular_ooo
 %find_lang okular_plucker
