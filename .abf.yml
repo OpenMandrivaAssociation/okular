@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   okular-17.11.90.tar.xz: 8a27138a3cfdae79819cc3c8bf1bddbc85f2f86a
+sources:
+  okular-17.12.2.tar.xz: 119650b820c8d3088f1bfd2bee0e55f276436dda

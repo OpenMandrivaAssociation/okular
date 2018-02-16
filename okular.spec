@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	17.11.90
+Version:	 17.12.2
 %if 0%{snapshot}
 Release:	0.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
