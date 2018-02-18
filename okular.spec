@@ -380,7 +380,7 @@ XPS display support for Okular.
 
 #------------------------------------------------
 
-%define okularcore_major 7
+%define okularcore_major 8
 %define libokularcore %mklibname Okular5Core %{okularcore_major}
 
 %package -n %{libokularcore}
