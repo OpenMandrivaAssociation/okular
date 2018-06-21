@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	 17.12.2
+Version:	18.04.2
 %if 0%{snapshot}
 Release:	0.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
@@ -76,7 +76,7 @@ and others.
 The document format handlers page has a chart describing in more detail
 the supported formats and the features supported in each of them.
 
-%files -f okular.lang,org.kde.active.documentviewer.lang,okular_markdown.lang
+%files -f okular.lang -f org.kde.active.documentviewer.lang -f okular_markdown.lang
 %doc AUTHORS COPYING TODO
 %{_sysconfdir}/xdg/okular.categories
 %{_bindir}/okular
@@ -380,7 +380,7 @@ XPS display support for Okular.
 
 #------------------------------------------------
 
-%define okularcore_major 8
+%define okularcore_major 9
 %define libokularcore %mklibname Okular5Core %{okularcore_major}
 
 %package -n %{libokularcore}
