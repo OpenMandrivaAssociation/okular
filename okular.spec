@@ -6,9 +6,9 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	18.04.2
+Version:	18.04.3
 %if 0%{snapshot}
-Release:	0.%{snapshot}.1
+Release:	1.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
 %else
 Release:	1
