@@ -83,13 +83,10 @@ the supported formats and the features supported in each of them.
 %doc AUTHORS COPYING TODO
 %{_sysconfdir}/xdg/okular.categories
 %{_bindir}/okular
-%{_bindir}/okularkirigami
 %{_libdir}/qt5/plugins/okularpart.so
 %{_libdir}/qt5/qml/org/kde/okular
 %{_datadir}/applications/org.kde.okular.desktop
-%{_datadir}/applications/org.kde.okular.kirigami.desktop
 %{_datadir}/metainfo/org.kde.okular.appdata.xml
-%{_datadir}/metainfo/org.kde.okular.kirigami.appdata.xml
 %{_datadir}/kservices5/okular_part.desktop
 %{_datadir}/kservicetypes5/okularGenerator.desktop
 %{_datadir}/kxmlgui5/okular
@@ -100,6 +97,21 @@ the supported formats and the features supported in each of them.
 %{_datadir}/config.kcfg/okular_core.kcfg
 %{_datadir}/icons/*/*/*/okular.*
 %{_mandir}/man1/okular.1*
+
+#------------------------------------------------
+
+%package mobile
+Summary:	Mobile-friendly alternative UI for Okular
+Group:		Graphical desktop/KDE
+
+%description mobile
+An alternative user interface for Okular, targeting mobile
+devices rather than traditional desktops
+
+%files mobile
+%{_bindir}/okularkirigami
+%{_datadir}/applications/org.kde.okular.kirigami.desktop
+%{_datadir}/metainfo/org.kde.okular.kirigami.appdata.xml
 
 #------------------------------------------------
 
