@@ -6,15 +6,14 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	18.04.3
+Version:	18.07.80
 %if 0%{snapshot}
-Release:	1.%{snapshot}.1
+Release:	0.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
 %else
 Release:	1
 Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 %endif
-Epoch:		2
 License:	GPLv2+
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org/applications/graphics/okular
@@ -84,12 +83,13 @@ the supported formats and the features supported in each of them.
 %doc AUTHORS COPYING TODO
 %{_sysconfdir}/xdg/okular.categories
 %{_bindir}/okular
+%{_bindir}/okularkirigami
 %{_libdir}/qt5/plugins/okularpart.so
 %{_libdir}/qt5/qml/org/kde/okular
 %{_datadir}/applications/org.kde.okular.desktop
-%{_datadir}/applications/org.kde.mobile.okular.desktop
+%{_datadir}/applications/org.kde.okular.kirigami.desktop
 %{_datadir}/metainfo/org.kde.okular.appdata.xml
-%{_datadir}/kpackage/genericqml/org.kde.mobile.okular
+%{_datadir}/metainfo/org.kde.okular.kirigami.appdata.xml
 %{_datadir}/kservices5/okular_part.desktop
 %{_datadir}/kservicetypes5/okularGenerator.desktop
 %{_datadir}/kxmlgui5/okular
@@ -390,13 +390,14 @@ XPS display support for Okular.
 %package -n %{libokularcore}
 Summary:	Runtime library for okular
 Group:		System/Libraries
-Obsoletes:	%{_lib}okularcore1 < 2:4.10.0
-Obsoletes:	%{_lib}okularcore2 < 2:4.11.0
-Obsoletes:	%{_lib}okularcore3 < 2:4.13.0
-Obsoletes:	%{_lib}okularcore4 < 2:4.14.0
-Obsoletes:	%{_lib}okularcore5 < 2:15.12.1
-Obsoletes:	%{_lib}okularcore6 < 2:15.12.1
-Obsoletes:	%{_lib}okularcore7 < 2:16.06
+Obsoletes:	%{_lib}okularcore1 <= 2:4.10.0
+Obsoletes:	%{_lib}okularcore2 <= 2:4.11.0
+Obsoletes:	%{_lib}okularcore3 <= 2:4.13.0
+Obsoletes:	%{_lib}okularcore4 <= 2:4.14.0
+Obsoletes:	%{_lib}okularcore5 <= 2:15.12.1
+Obsoletes:	%{_lib}okularcore6 <= 2:15.12.1
+Obsoletes:	%{_lib}okularcore7 <= 2:16.06
+Obsoletes:	%{_lib}okularcore8 <= 2:18.08
 
 %description -n %{libokularcore}
 Runtime library for Okular.
@@ -409,7 +410,6 @@ Runtime library for Okular.
 %package devel
 Summary:	Devel stuff for kdegraphics
 Group:		Development/KDE and Qt
-Conflicts:	kdegraphics4-devel < 2:4.6.90
 Requires:	%{libokularcore} = %{EVRD}
 Requires:	chmlib-devel
 Requires:	ebook-tools-devel
