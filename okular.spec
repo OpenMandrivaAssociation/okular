@@ -11,7 +11,7 @@ Version:	18.08.2
 Release:	1.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
 %else
-Release:	1
+Release:	2
 Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 %endif
 License:	GPLv2+
