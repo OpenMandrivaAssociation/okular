@@ -6,12 +6,12 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	18.08.2
+Version:	18.08.3
 %if 0%{snapshot}
 Release:	1.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
 %else
-Release:	2
+Release:	1
 Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 %endif
 License:	GPLv2+
