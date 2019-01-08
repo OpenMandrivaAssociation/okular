@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	18.12.0
+Version:	18.12.1
 %if 0%{snapshot}
 Release:	1.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.xz
@@ -27,6 +27,7 @@ BuildRequires:	pkgconfig(Qt5Qml)
 BuildRequires:	pkgconfig(Qt5Quick)
 BuildRequires:	pkgconfig(Qt5TextToSpeech)
 BuildRequires:	tiff-devel
+BuildRequires:	pkgconfig(libmarkdown)
 BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	pkgconfig(libzip)
 BuildRequires:	pkgconfig(zlib)
@@ -272,6 +273,23 @@ FeedBooks display support for Okular.
 %{_datadir}/applications/org.kde.mobile.okular_fb.desktop
 %{_datadir}/metainfo/org.kde.okular-fb.metainfo.xml
 %{_datadir}/kservices5/okularFb.desktop
+
+#------------------------------------------------
+
+%package markdown
+Summary:	Markdown display support for Okular
+Group:		Graphical desktop/KDE
+Requires:	%{name} = %{EVRD}
+
+%description markdown
+Markdown display support for Okular.
+
+%files markdown
+%{_libdir}/qt5/plugins/okular/generators/okularGenerator_md.so
+%{_datadir}/applications/okularApplication_md.desktop
+%{_datadir}/applications/org.kde.mobile.okular_md.desktop
+%{_datadir}/metainfo/org.kde.okular-md.metainfo.xml
+%{_datadir}/kservices5/okularMd.desktop
 
 #------------------------------------------------
 
