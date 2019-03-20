@@ -7,13 +7,8 @@
 Summary:	A universal document viewer
 Name:		okular
 Version:	18.12.3
-%if 0%{snapshot}
-Release:	1.%{snapshot}.1
-Source0:	%{name}-%{snapshot}.tar.xz
-%else
-Release:	1
+Release:	2
 Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
-%endif
 License:	GPLv2+
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org/applications/graphics/okular
@@ -456,11 +451,7 @@ based on Okular.
 #----------------------------------------------------------------------
 
 %prep
-%if 0%{snapshot}
-%setup -qn %{name}-%{snapshot}
-%else
 %setup -q
-%endif
 %apply_patches
 %cmake_kde5
 
