@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	19.04.3
+Version:	19.07.80
 Release:	1
 Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 License:	GPLv2+
@@ -77,7 +77,7 @@ the supported formats and the features supported in each of them.
 
 %files -f okular.lang -f org.kde.active.documentviewer.lang -f okular_markdown.lang
 %doc AUTHORS COPYING TODO
-%{_sysconfdir}/xdg/okular.categories
+%{_datadir}/qlogging-categories5/okular.categories
 %{_bindir}/okular
 %{_libdir}/qt5/plugins/okularpart.so
 %{_libdir}/qt5/qml/org/kde/okular
