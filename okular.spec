@@ -6,9 +6,9 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	19.11.90
+Version:	19.12.0
 Release:	1
-Source0:	http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
+Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 License:	GPLv2+
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org/applications/graphics/okular
@@ -452,7 +452,7 @@ based on Okular.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 %cmake_kde5
 
 %build
