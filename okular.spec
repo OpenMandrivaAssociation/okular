@@ -7,7 +7,7 @@
 Summary:	A universal document viewer
 Name:		okular
 Version:	19.12.1
-Release:	2
+Release:	3
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 License:	GPLv2+
 Group:		Graphical desktop/KDE
