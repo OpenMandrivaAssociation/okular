@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	19.12.3
+Version:	20.03.80
 Release:	1
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 License:	GPLv2+
@@ -80,7 +80,6 @@ the supported formats and the features supported in each of them.
 %{_datadir}/qlogging-categories5/okular.categories
 %{_bindir}/okular
 %{_libdir}/qt5/plugins/okularpart.so
-%{_libdir}/qt5/qml/org/kde/okular
 %{_datadir}/applications/org.kde.okular.desktop
 %{_datadir}/metainfo/org.kde.okular.appdata.xml
 %{_datadir}/kservices5/okular_part.desktop
@@ -108,6 +107,7 @@ devices rather than traditional desktops
 %{_bindir}/okularkirigami
 %{_datadir}/applications/org.kde.okular.kirigami.desktop
 %{_datadir}/metainfo/org.kde.okular.kirigami.appdata.xml
+%{_libdir}/qt5/qml/org/kde/okular
 
 #------------------------------------------------
 
@@ -453,7 +453,8 @@ based on Okular.
 %prep
 %setup -q
 %autopatch -p1
-%cmake_kde5
+%cmake_kde5 \
+	-DOKULAR_UI=both
 
 %build
 %ninja -C build
