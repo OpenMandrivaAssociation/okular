@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	20.04.3
+Version:	20.07.80
 Release:	1
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 License:	GPLv2+
@@ -366,7 +366,7 @@ Requires:	%{name} = %{EVRD}
 %description tiff
 TIFF display support for Okular.
 
-%files tiff
+%files tiff -f okular_tiff.lang
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_tiff.so
 %{_datadir}/applications/okularApplication_tiff.desktop
 %{_datadir}/applications/org.kde.mobile.okular_tiff.desktop
@@ -476,6 +476,7 @@ based on Okular.
 %find_lang okular_ooo
 %find_lang okular_plucker
 %find_lang okular_poppler
+%find_lang okular_tiff
 %find_lang okular_txt
 %find_lang okular_xps
 %find_lang org.kde.active.documentviewer
