@@ -7,8 +7,11 @@
 Summary:	A universal document viewer
 Name:		okular
 Version:	20.07.90
-Release:	1
+Release:	2
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
+# Partial revert of 51b90ecd73e37b9646d8a4bbb51e4fa815942912
+# to fix https://bugs.kde.org/show_bug.cgi?id=421780
+Patch0:		okular-20.07.90-fix-scrolling.patch
 License:	GPLv2+
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org/applications/graphics/okular
@@ -451,8 +454,7 @@ based on Okular.
 #----------------------------------------------------------------------
 
 %prep
-%setup -q
-%autopatch -p1
+%autosetup -p1
 %cmake_kde5 \
 	-DOKULAR_UI=both
 

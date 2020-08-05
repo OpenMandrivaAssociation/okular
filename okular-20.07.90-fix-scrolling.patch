@@ -1,0 +1,487 @@
+diff -up okular-20.07.90/ui/pageview.cpp.omv~ okular-20.07.90/ui/pageview.cpp
+--- okular-20.07.90/ui/pageview.cpp.omv~	2020-08-06 00:19:51.172522840 +0200
++++ okular-20.07.90/ui/pageview.cpp	2020-08-06 00:46:21.655143512 +0200
+@@ -39,8 +39,6 @@
+ #include <QMimeDatabase>
+ #include <QPainter>
+ #include <QScrollBar>
+-#include <QScroller>
+-#include <QScrollerProperties>
+ #include <QSet>
+ #include <QTimer>
+ #include <QToolTip>
+@@ -152,7 +150,7 @@ public:
+     // view layout (columns and continuous in Settings), zoom and mouse
+     PageView::ZoomMode zoomMode;
+     float zoomFactor;
+-    QPoint mouseGrabOffset;
++    QPoint mouseGrabPos;
+     QPoint mousePressPos;
+     QPoint mouseSelectPos;
+     QPoint previousMouseMovePos;
+@@ -172,9 +170,14 @@ public:
+     QList<TableSelectionPart> tableSelectionParts;
+     bool tableDividersGuessed;
+ 
++    // viewport move
++    bool viewportMoveActive;
++    QElapsedTimer viewportMoveTime;
++    QPoint viewportMoveDest;
+     int lastSourceLocationViewportPageNumber;
+     double lastSourceLocationViewportNormalizedX;
+     double lastSourceLocationViewportNormalizedY;
++    QTimer *viewportMoveTimer;
+     int controlWheelAccumulatedDelta;
+     // auto scroll
+     int scrollIncrement;
+@@ -252,8 +255,6 @@ public:
+ 
+     // Keep track of mouse over link object
+     const Okular::ObjectRect *mouseOverLinkObject;
+-
+-    QScroller *scroller;
+ };
+ 
+ PageViewPrivate::PageViewPrivate(PageView *qq)
+@@ -329,6 +330,7 @@ PageView::PageView(QWidget *parent, Okul
+     d->lastSourceLocationViewportPageNumber = -1;
+     d->lastSourceLocationViewportNormalizedX = 0.0;
+     d->lastSourceLocationViewportNormalizedY = 0.0;
++    d->viewportMoveTimer = nullptr;
+     d->controlWheelAccumulatedDelta = 0;
+     d->scrollIncrement = 0;
+     d->autoScrollTimer = nullptr;
+@@ -414,17 +416,6 @@ PageView::PageView(QWidget *parent, Okul
+     viewport()->setMouseTracking(true);
+     viewport()->setAutoFillBackground(false);
+ 
+-    d->scroller = QScroller::scroller(viewport());
+-
+-    QScrollerProperties prop;
+-    prop.setScrollMetric(QScrollerProperties::DecelerationFactor, 0.3);
+-    prop.setScrollMetric(QScrollerProperties::MaximumVelocity, 1);
+-    prop.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy, QScrollerProperties::OvershootAlwaysOff);
+-    prop.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy, QScrollerProperties::OvershootAlwaysOff);
+-    d->scroller->setScrollerProperties(prop);
+-
+-    connect(d->scroller, &QScroller::stateChanged, this, &PageView::slotRequestVisiblePixmaps);
+-
+     // the apparently "magic" value of 20 is the same used internally in QScrollArea
+     verticalScrollBar()->setCursor(Qt::ArrowCursor);
+     verticalScrollBar()->setSingleStep(20);
+@@ -435,14 +426,6 @@ PageView::PageView(QWidget *parent, Okul
+     connect(horizontalScrollBar(), &QAbstractSlider::valueChanged, this, &PageView::slotRequestVisiblePixmaps);
+     connect(verticalScrollBar(), &QAbstractSlider::valueChanged, this, &PageView::slotRequestVisiblePixmaps);
+ 
+-    auto update_scroller = [=]() {
+-        d->scroller->scrollTo(QPoint(horizontalScrollBar()->value(), verticalScrollBar()->value()), 0); // sync scroller with scrollbar
+-    };
+-    connect(verticalScrollBar(), &QAbstractSlider::sliderReleased, this, update_scroller);
+-    connect(horizontalScrollBar(), &QAbstractSlider::sliderReleased, this, update_scroller);
+-    connect(verticalScrollBar(), &QAbstractSlider::sliderMoved, this, update_scroller);
+-    connect(horizontalScrollBar(), &QAbstractSlider::sliderMoved, this, update_scroller);
+-
+     connect(&d->dragScrollTimer, &QTimer::timeout, this, &PageView::slotDragScroll);
+ 
+     d->leftClickTimer.setSingleShot(true);
+@@ -1274,7 +1257,23 @@ void PageView::slotRealNotifyViewportCha
+     const QPoint centerCoord = viewportToContentArea(vp);
+ 
+     // if smooth movement requested, setup parameters and start it
+-    center(centerCoord.x(), centerCoord.y(), smoothMove);
++    if ( smoothMove )
++    {
++        d->viewportMoveActive = true;
++        d->viewportMoveTime.start();
++        d->viewportMoveDest.setX( centerCoord.x() );
++        d->viewportMoveDest.setY( centerCoord.y() );
++        if ( !d->viewportMoveTimer )
++        {
++            d->viewportMoveTimer = new QTimer( this );
++            connect( d->viewportMoveTimer, &QTimer::timeout,
++                     this, &PageView::slotMoveViewport );
++        }
++        d->viewportMoveTimer->start( 25 );
++        verticalScrollBar()->setEnabled( false );
++        horizontalScrollBar()->setEnabled( false );
++    } else
++        center(centerCoord.x(), centerCoord.y());
+ 
+     d->blockPixmapsRequest = false;
+ 
+@@ -1850,11 +1849,15 @@ void PageView::keyPressEvent(QKeyEvent *
+     if ((d->mouseSelecting && e->key() != Qt::Key_Escape) || (QApplication::mouseButtons() & Qt::MidButton))
+         return;
+ 
++    // if viewport is moving, disable keys handling
++    if ( d->viewportMoveActive )
++        return;
++
+     // move/scroll page by using keys
+     switch (e->key()) {
+     case Qt::Key_J:
+     case Qt::Key_Down:
+-        slotScrollDown(1 /* go down 1 step */);
++        slotScrollDown( true /* singleStep */);
+         break;
+ 
+     case Qt::Key_PageDown:
+@@ -1863,7 +1866,7 @@ void PageView::keyPressEvent(QKeyEvent *
+ 
+     case Qt::Key_K:
+     case Qt::Key_Up:
+-        slotScrollUp(1 /* go up 1 step */);
++        slotScrollUp( true /* singleStep */);
+         break;
+ 
+     case Qt::Key_PageUp:
+@@ -1878,7 +1881,7 @@ void PageView::keyPressEvent(QKeyEvent *
+             int next_page = d->document->currentPage() - viewColumns();
+             d->document->setViewportPage(next_page);
+         } else {
+-            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(-horizontalScrollBar()->singleStep(), 0), 100);
++            horizontalScrollBar()->triggerAction( QScrollBar::SliderSingleStepSub );
+         }
+         break;
+     case Qt::Key_Right:
+@@ -1888,7 +1891,7 @@ void PageView::keyPressEvent(QKeyEvent *
+             int next_page = d->document->currentPage() + viewColumns();
+             d->document->setViewportPage(next_page);
+         } else {
+-            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(horizontalScrollBar()->singleStep(), 0), 100);
++            horizontalScrollBar()->triggerAction( QScrollBar::SliderSingleStepAdd );
+         }
+         break;
+     case Qt::Key_Escape:
+@@ -1994,6 +1997,10 @@ void PageView::mouseMoveEvent(QMouseEven
+     if (d->items.isEmpty())
+         return;
+ 
++    // don't perform any mouse action when viewport is autoscrolling
++    if ( d->viewportMoveActive )
++        return;
++
+     // if holding mouse mid button, perform zoom
+     if (e->buttons() & Qt::MidButton) {
+         int mouseY = e->globalPos().y();
+@@ -2053,33 +2060,36 @@ void PageView::mouseMoveEvent(QMouseEven
+                 d->mouseAnnotation->routeMouseMoveEvent(pageItem, eventPos, leftButton);
+             }
+             // drag page
+-            else {
+-                if (d->scroller->state() == QScroller::Inactive || d->scroller->state() == QScroller::Scrolling) {
+-                    d->mouseGrabOffset = QPoint(0, 0);
+-                    d->scroller->handleInput(QScroller::InputPress, e->pos(), e->timestamp() - 1);
+-                }
+-
++            else if ( !d->mouseGrabPos.isNull() ) {
+                 setCursor(Qt::ClosedHandCursor);
+ 
+                 QPoint mousePos = e->globalPos();
++                QPoint delta = d->mouseGrabPos - mousePos;
+ 
++                // wrap mouse from top to bottom
+                 const QRect mouseContainer = QApplication::desktop()->screenGeometry(this);
++                // If the delta is huge it probably means we just wrapped in that direction
++                const QPoint absDelta(abs(delta.x()), abs(delta.y()));
++                if ( absDelta.y() > mouseContainer.height() / 2 )
++                    delta.setY(mouseContainer.height() - absDelta.y());
++                if ( absDelta.x() > mouseContainer.width() / 2 )
++                    delta.setX(mouseContainer.width() - absDelta.x());
+ 
+-                // wrap mouse from top to bottom
+                 if (mousePos.y() <= mouseContainer.top() + 4 && verticalScrollBar()->value() < verticalScrollBar()->maximum() - 10) {
+                     mousePos.setY(mouseContainer.bottom() - 5);
+                     QCursor::setPos(mousePos);
+-                    d->mouseGrabOffset -= QPoint(0, mouseContainer.height());
+                 }
+                 // wrap mouse from bottom to top
+                 else if (mousePos.y() >= mouseContainer.bottom() - 4 && verticalScrollBar()->value() > 10) {
+                     mousePos.setY(mouseContainer.top() + 5);
+-                    d->mouseGrabOffset += QPoint(0, mouseContainer.height());
+ 
+                     QCursor::setPos(mousePos);
+                 }
++                // remember last position
++                d->mouseGrabPos = mousePos;
+ 
+-                d->scroller->handleInput(QScroller::InputMove, e->pos() + d->mouseGrabOffset, e->timestamp());
++                // scroll page by position increment
++                scrollTo( horizontalScrollBar()->value() + delta.x(), verticalScrollBar()->value() + delta.y() );
+             }
+         } else if (rightButton && !d->mousePressPos.isNull() && d->aMouseSelect) {
+             // if mouse moves 5 px away from the press point, switch to 'selection'
+@@ -2139,7 +2149,7 @@ void PageView::mousePressEvent(QMouseEve
+         return;
+ 
+     // if performing a selection or dyn zooming, disable mouse press
+-    if (d->mouseSelecting || (e->button() != Qt::MidButton && (e->buttons() & Qt::MidButton)))
++    if (d->mouseSelecting || (e->button() != Qt::MidButton && (e->buttons() & Qt::MidButton)) || d->viewportMoveActive )
+         return;
+ 
+     // if the page is scrolling, stop it
+@@ -2159,7 +2169,6 @@ void PageView::mousePressEvent(QMouseEve
+ 
+     // if we're editing an annotation, dispatch event to it
+     if (d->annotator && d->annotator->active()) {
+-        d->scroller->stop();
+         PageViewItem *pageItem = pickItemOnPoint(eventPos.x(), eventPos.y());
+         d->annotator->routeMouseEvent(e, pageItem);
+         return;
+@@ -2194,9 +2203,8 @@ void PageView::mousePressEvent(QMouseEve
+                 d->mouseAnnotation->routeMousePressEvent(pageItem, eventPos);
+             }
+ 
++            d->mouseGrabPos = d->mouseOnRect ? QPoint() : d->mousePressPos;
+             if (!d->mouseOnRect) {
+-                d->mouseGrabOffset = QPoint(0, 0);
+-                d->scroller->handleInput(QScroller::InputPress, e->pos(), e->timestamp());
+                 d->leftClickTimer.start(QApplication::doubleClickInterval() + 10);
+             }
+         } else if (rightButton) {
+@@ -2359,6 +2367,10 @@ void PageView::mouseReleaseEvent(QMouseE
+         return;
+     }
+ 
++    // don't perform any mouse action when viewport is autoscrolling
++    if ( d->viewportMoveActive )
++        return;
++
+     const QPoint eventPos = contentAreaPoint(e->pos());
+ 
+     // handle mode independent mid bottom zoom
+@@ -2379,12 +2391,6 @@ void PageView::mouseReleaseEvent(QMouseE
+ 
+     switch (d->mouseMode) {
+     case Okular::Settings::EnumMouseMode::Browse: {
+-        d->scroller->handleInput(QScroller::InputRelease, e->pos() + d->mouseGrabOffset, e->timestamp());
+-
+-        // disable flick if the cursor has wrapped around
+-        if (d->mouseGrabOffset != QPoint(0, 0))
+-            d->scroller->stop();
+-
+         // return the cursor to its normal state after dragging
+         if (cursor().shape() == Qt::ClosedHandCursor)
+             updateCursor(eventPos);
+@@ -3079,6 +3085,10 @@ void PageView::mouseDoubleClickEvent(QMo
+ 
+ void PageView::wheelEvent(QWheelEvent *e)
+ {
++    // don't perform any mouse action when viewport is autoscrolling
++    if ( d->viewportMoveActive )
++        return;
++
+     if (!d->document->isOpened()) {
+         QAbstractScrollArea::wheelEvent(e);
+         return;
+@@ -3109,7 +3119,6 @@ void PageView::wheelEvent(QWheelEvent *e
+                 newViewport.rePos.enabled = true;
+                 newViewport.rePos.normalizedY = 0.0;
+                 d->document->setViewport(newViewport);
+-                d->scroller->scrollTo(QPoint(horizontalScrollBar()->value(), verticalScrollBar()->value()), 0); // sync scroller with scrollbar
+             }
+         } else if (delta >= QWheelEvent::DefaultDeltasPerStep && !Okular::Settings::viewContinuous() && vScroll == verticalScrollBar()->minimum()) {
+             // go to prev page
+@@ -3122,20 +3131,9 @@ void PageView::wheelEvent(QWheelEvent *e
+                 newViewport.rePos.enabled = true;
+                 newViewport.rePos.normalizedY = 1.0;
+                 d->document->setViewport(newViewport);
+-                d->scroller->scrollTo(QPoint(horizontalScrollBar()->value(), verticalScrollBar()->value()), 0); // sync scroller with scrollbar
+             }
+         } else {
+-            if (delta != 0 && delta % QWheelEvent::DefaultDeltasPerStep == 0) {
+-                // number of scroll wheel steps Qt gives to us at the same time
+-                int count = abs(delta / QWheelEvent::DefaultDeltasPerStep);
+-                if (delta < 0) {
+-                    slotScrollDown(count);
+-                } else {
+-                    slotScrollUp(count);
+-                }
+-            } else {
+-                d->scroller->scrollTo(d->scroller->finalPosition() - e->angleDelta() / 4.0, 0);
+-            }
++            QAbstractScrollArea::wheelEvent( e );
+         }
+     }
+ 
+@@ -3999,12 +3997,12 @@ int PageView::viewColumns() const
+         return Okular::Settings::viewColumns();
+ }
+ 
+-void PageView::center(int cx, int cy, bool smoothMove)
++void PageView::center(int cx, int cy)
+ {
+-    scrollTo(cx - viewport()->width() / 2, cy - viewport()->height() / 2, smoothMove);
++    scrollTo(cx - viewport()->width() / 2, cy - viewport()->height() / 2);
+ }
+ 
+-void PageView::scrollTo(int x, int y, bool smoothMove)
++void PageView::scrollTo(int x, int y)
+ {
+     bool prevState = d->blockPixmapsRequest;
+ 
+@@ -4014,10 +4012,8 @@ void PageView::scrollTo(int x, int y, bo
+ 
+     d->blockPixmapsRequest = true;
+ 
+-    if (smoothMove)
+-        d->scroller->scrollTo(QPoint(x, y));
+-    else
+-        d->scroller->scrollTo(QPoint(x, y), 0);
++    horizontalScrollBar()->setValue( x );
++    verticalScrollBar()->setValue( y );
+ 
+     d->blockPixmapsRequest = prevState;
+ 
+@@ -4168,6 +4164,16 @@ void PageView::slotRelayoutPages()
+         return;
+     }
+ 
++    // if viewport was auto-moving, stop it
++    if ( d->viewportMoveActive )
++    {
++        center( d->viewportMoveDest.x(), d->viewportMoveDest.y() );
++        d->viewportMoveActive = false;
++        d->viewportMoveTimer->stop();
++        verticalScrollBar()->setEnabled( true );
++        horizontalScrollBar()->setEnabled( true );
++    }
++
+     int viewportWidth = viewport()->width(), viewportHeight = viewport()->height(), fullWidth = 0, fullHeight = 0;
+ 
+     // handle the 'center first page in row' stuff
+@@ -4362,7 +4368,7 @@ static void slotRequestPreloadPixmap(Oku
+ void PageView::slotRequestVisiblePixmaps(int newValue)
+ {
+     // if requests are blocked (because raised by an unwanted event), exit
+-    if (d->blockPixmapsRequest || d->scroller->state() == QScroller::Scrolling)
++    if (d->blockPixmapsRequest || d->viewportMoveActive )
+         return;
+ 
+     // precalc view limits for intersecting with page coords inside the loop
+@@ -4510,6 +4516,32 @@ void PageView::slotRequestVisiblePixmaps
+     d->document->setVisiblePageRects(visibleRects, this);
+ }
+ 
++void PageView::slotMoveViewport()
++{
++    // converge to viewportMoveDest in 1 second
++    int diffTime = d->viewportMoveTime.elapsed();
++    if ( diffTime >= 667 || !d->viewportMoveActive )
++    {
++        center( d->viewportMoveDest.x(), d->viewportMoveDest.y() );
++        d->viewportMoveTimer->stop();
++        d->viewportMoveActive = false;
++        slotRequestVisiblePixmaps();
++        verticalScrollBar()->setEnabled( true );
++        horizontalScrollBar()->setEnabled( true );
++        return;
++    }
++
++    // move the viewport smoothly (kmplot: p(x)=1+0.47*(x-1)^3-0.25*(x-1)^4)
++    float convergeSpeed = (float)diffTime / 667.0,
++          x = ((float)viewport()->width() / 2.0) + horizontalScrollBar()->value(),
++          y = ((float)viewport()->height() / 2.0) + verticalScrollBar()->value(),
++          diffX = (float)d->viewportMoveDest.x() - x,
++          diffY = (float)d->viewportMoveDest.y() - y;
++    convergeSpeed *= convergeSpeed * (1.4 - convergeSpeed);
++    center( (int)(x + diffX * convergeSpeed),
++            (int)(y + diffY * convergeSpeed ) );
++}
++
+ void PageView::slotAutoScroll()
+ {
+     // the first time create the timer
+@@ -4531,7 +4563,7 @@ void PageView::slotAutoScroll()
+     const int scrollOffset[10] = {1, 1, 1, 1, 1, 2, 2, 2, 4, 4};
+     d->autoScrollTimer->start(scrollDelay[index]);
+     int delta = d->scrollIncrement > 0 ? scrollOffset[index] : -scrollOffset[index];
+-    d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, delta), scrollDelay[index]);
++    verticalScrollBar()->setValue(verticalScrollBar()->value() + delta);
+ }
+ 
+ void PageView::slotDragScroll()
+@@ -4732,19 +4764,14 @@ void PageView::slotAutoScrollDown()
+     setFocus();
+ }
+ 
+-void PageView::slotScrollUp(int nSteps)
++void PageView::slotScrollUp(bool singleStep)
+ {
+-    if (d->scroller->state() == QScroller::Scrolling)
+-        return;
+-
+     // if in single page mode and at the top of the screen, go to \ page
+     if (Okular::Settings::viewContinuous() || verticalScrollBar()->value() > verticalScrollBar()->minimum()) {
+-        if (nSteps) {
+-            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, -100 * nSteps), 0);
+-        } else {
+-            if (d->scroller->finalPosition().y() > verticalScrollBar()->minimum())
+-                d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, -verticalScrollBar()->rect().height()));
+-        }
++        if (singleStep)
++            verticalScrollBar()->triggerAction( QScrollBar::SliderSingleStepSub );
++        else
++            verticalScrollBar()->triggerAction( QScrollBar::SliderPageStepSub );
+     } else if (d->document->currentPage() > 0) {
+         // more optimized than document->setPrevPage and then move view to bottom
+         Okular::DocumentViewport newViewport = d->document->viewport();
+@@ -4757,19 +4784,14 @@ void PageView::slotScrollUp(int nSteps)
+     }
+ }
+ 
+-void PageView::slotScrollDown(int nSteps)
++void PageView::slotScrollDown(bool singleStep)
+ {
+-    if (d->scroller->state() == QScroller::Scrolling)
+-        return;
+-
+     // if in single page mode and at the bottom of the screen, go to next page
+     if (Okular::Settings::viewContinuous() || verticalScrollBar()->value() < verticalScrollBar()->maximum()) {
+-        if (nSteps) {
+-            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, 100 * nSteps), 0);
+-        } else {
+-            if (d->scroller->finalPosition().y() < verticalScrollBar()->maximum())
+-                d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, verticalScrollBar()->rect().height()));
+-        }
++        if (singleStep)
++            verticalScrollBar()->triggerAction(QScrollBar::SliderSingleStepAdd);
++        else
++            verticalScrollBar()->triggerAction(QScrollBar::SliderPageStepAdd);
+     } else if ((int)d->document->currentPage() < d->items.count() - 1) {
+         // more optimized than document->setNextPage and then move view to top
+         Okular::DocumentViewport newViewport = d->document->viewport();
+diff -up okular-20.07.90/ui/pageview.h.omv~ okular-20.07.90/ui/pageview.h
+--- okular-20.07.90/ui/pageview.h.omv~	2020-08-06 00:46:23.120159826 +0200
++++ okular-20.07.90/ui/pageview.h	2020-08-06 00:47:50.608140681 +0200
+@@ -197,8 +197,8 @@ private:
+ 
+     int viewColumns() const;
+ 
+-    void center(int cx, int cy, bool smoothMove = false);
+-    void scrollTo(int x, int y, bool smoothMove = false);
++    void center(int cx, int cy);
++    void scrollTo(int x, int y);
+ 
+     void toggleFormWidgets(bool on);
+ 
+@@ -232,6 +232,8 @@ private Q_SLOTS:
+     void delayedResizeEvent();
+     // activated either directly or via the contentsMoving(int,int) signal
+     void slotRequestVisiblePixmaps(int newValue = -1);
++    // activated by the viewport move timer
++    void slotMoveViewport();
+     // activated by the autoscroll timer (Shift+Up/Down keys)
+     void slotAutoScroll();
+     // activated by the dragScroll timer
+@@ -264,8 +266,8 @@ private Q_SLOTS:
+     void slotSetMouseTableSelect();
+     void slotAutoScrollUp();
+     void slotAutoScrollDown();
+-    void slotScrollUp(int nSteps = 0);
+-    void slotScrollDown(int nSteps = 0);
++    void slotScrollUp(bool singleStep = false);
++    void slotScrollDown(bool singleStep = false);
+     void slotRotateClockwise();
+     void slotRotateCounterClockwise();
+     void slotRotateOriginal();
