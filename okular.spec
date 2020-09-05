@@ -7,7 +7,7 @@
 Summary:	A universal document viewer
 Name:		okular
 Version:	20.08.0
-Release:	1
+Release:	2
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 # Partial revert of 51b90ecd73e37b9646d8a4bbb51e4fa815942912
 # to fix https://bugs.kde.org/show_bug.cgi?id=421780
@@ -52,6 +52,8 @@ BuildRequires:	cmake(KF5Kirigami2)
 BuildRequires:	cmake(Phonon4Qt5)
 BuildRequires:	cmake(Qca-qt5)
 BuildRequires:	cmake(KF5KExiv2)
+Provides:	%{name}-ui = %{EVRD}
+Requires:	%{name}-common = %{EVRD}
 Requires:	%{name}-pdf = %{EVRD}
 Requires:	%{name}-postscript = %{EVRD}
 Suggests:	%{name}-chm = %{EVRD}
@@ -78,13 +80,25 @@ and others.
 The document format handlers page has a chart describing in more detail
 the supported formats and the features supported in each of them.
 
-%files -f okular.lang -f org.kde.active.documentviewer.lang -f okular_markdown.lang
-%doc AUTHORS COPYING TODO
-%{_datadir}/qlogging-categories5/okular.categories
+%files
 %{_bindir}/okular
-%{_libdir}/qt5/plugins/okularpart.so
 %{_datadir}/applications/org.kde.okular.desktop
 %{_datadir}/metainfo/org.kde.okular.appdata.xml
+%{_mandir}/man1/okular.1*
+
+#------------------------------------------------
+
+%package common
+Summary:	Files needed by both the desktop and mobile frontends for Okular
+Group:		Graphical desktop/KDE
+
+%description common
+Files needed by both the desktop and mobile frontends for Okular
+
+%files common -f okular.lang -f org.kde.active.documentviewer.lang -f okular_markdown.lang
+%doc AUTHORS COPYING TODO
+%{_datadir}/qlogging-categories5/okular.categories
+%{_libdir}/qt5/plugins/okularpart.so
 %{_datadir}/kservices5/okular_part.desktop
 %{_datadir}/kservicetypes5/okularGenerator.desktop
 %{_datadir}/kxmlgui5/okular
@@ -94,13 +108,27 @@ the supported formats and the features supported in each of them.
 %{_datadir}/config.kcfg/gssettings.kcfg
 %{_datadir}/config.kcfg/okular_core.kcfg
 %{_datadir}/icons/*/*/*/okular.*
-%{_mandir}/man1/okular.1*
 
 #------------------------------------------------
 
 %package mobile
 Summary:	Mobile-friendly alternative UI for Okular
 Group:		Graphical desktop/KDE
+Provides:	%{name}-ui = %{EVRD}
+Requires:	%{name}-common = %{EVRD}
+Requires:	%{name}-pdf = %{EVRD}
+Requires:	%{name}-postscript = %{EVRD}
+Suggests:	%{name}-comicbook = %{EVRD}
+Suggests:	%{name}-djvu = %{EVRD}
+Suggests:	%{name}-dvi = %{EVRD}
+Suggests:	%{name}-epub = %{EVRD}
+Suggests:	%{name}-fb = %{EVRD}
+Suggests:	%{name}-kimgio = %{EVRD}
+Suggests:	%{name}-ooo = %{EVRD}
+Suggests:	%{name}-plucker = %{EVRD}
+Suggests:	%{name}-tiff = %{EVRD}
+Suggests:	%{name}-txt = %{EVRD}
+Suggests:	%{name}-xps = %{EVRD}
 
 %description mobile
 An alternative user interface for Okular, targeting mobile
@@ -117,7 +145,7 @@ devices rather than traditional desktops
 %package pdf
 Summary:	PDF display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	pkgconfig(poppler-qt5)
 
 %description pdf
@@ -136,7 +164,7 @@ PDF display support for Okular.
 %package plucker
 Summary:	Plucker display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description plucker
 Plucker display support for Okular.
@@ -153,7 +181,7 @@ Plucker display support for Okular.
 %package chm
 Summary:	CHM (Microsoft Help) display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	chmlib-devel
 
 %description chm
@@ -173,7 +201,7 @@ CHM (Microsoft Help) display support for Okular.
 %package comicbook
 Summary:	ComicBook display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description comicbook
 ComicBook display support for Okular.
@@ -190,7 +218,7 @@ ComicBook display support for Okular.
 %package djvu
 Summary:	DjVu display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	pkgconfig(ddjvuapi)
 
 %description djvu
@@ -208,7 +236,7 @@ DjVu display support for Okular.
 %package dvi
 Summary:	DVI display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description dvi
 DVI display support for Okular.
@@ -225,7 +253,7 @@ DVI display support for Okular.
 %package epub
 Summary:	EPub display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	ebook-tools-devel
 
 %description epub
@@ -243,7 +271,7 @@ EPub display support for Okular.
 %package fax
 Summary:	Fax display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description fax
 Fax display support for Okular.
@@ -260,7 +288,7 @@ Fax display support for Okular.
 %package fb
 Summary:	FeedBooks display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description fb
 FeedBooks display support for Okular.
@@ -277,7 +305,7 @@ FeedBooks display support for Okular.
 %package markdown
 Summary:	Markdown display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description markdown
 Markdown display support for Okular.
@@ -294,7 +322,7 @@ Markdown display support for Okular.
 %package mobipocket
 Summary:	MobiPocket display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	cmake(QMobipocket)
 
 %description mobipocket
@@ -312,7 +340,7 @@ MobiPocket display support for Okular.
 %package kimgio
 Summary:	KImgIO display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description kimgio
 KImgIO display support for Okular.
@@ -329,7 +357,7 @@ KImgIO display support for Okular.
 %package ooo
 Summary:	OpenOffice.Org/LibreOffice display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description ooo
 OpenOffice.org/LibreOffice display support for Okular.
@@ -346,7 +374,7 @@ OpenOffice.org/LibreOffice display support for Okular.
 %package postscript
 Summary:	PostScript display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	pkgconfig(libspectre)
 
 %description postscript
@@ -364,7 +392,7 @@ PostScript display support for Okular.
 %package tiff
 Summary:	TIFF display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description tiff
 TIFF display support for Okular.
@@ -381,7 +409,7 @@ TIFF display support for Okular.
 %package txt
 Summary:	TXT display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description txt
 TXT display support for Okular.
@@ -398,7 +426,7 @@ TXT display support for Okular.
 %package xps
 Summary:	XPS display support for Okular
 Group:		Graphical desktop/KDE
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}-ui = %{EVRD}
 
 %description xps
 XPS display support for Okular.
