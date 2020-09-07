@@ -1,6 +1,6 @@
-diff -up okular-20.07.90/ui/pageview.cpp.omv~ okular-20.07.90/ui/pageview.cpp
---- okular-20.07.90/ui/pageview.cpp.omv~	2020-08-06 00:19:51.172522840 +0200
-+++ okular-20.07.90/ui/pageview.cpp	2020-08-06 00:46:21.655143512 +0200
+diff -up okular-20.08.1/ui/pageview.cpp.1~ okular-20.08.1/ui/pageview.cpp
+--- okular-20.08.1/ui/pageview.cpp.1~	2020-08-31 21:02:06.000000000 +0200
++++ okular-20.08.1/ui/pageview.cpp	2020-09-07 01:58:41.264635968 +0200
 @@ -39,8 +39,6 @@
  #include <QMimeDatabase>
  #include <QPainter>
@@ -110,7 +110,7 @@ diff -up okular-20.07.90/ui/pageview.cpp.omv~ okular-20.07.90/ui/pageview.cpp
      d->blockPixmapsRequest = false;
  
 @@ -1850,11 +1849,15 @@ void PageView::keyPressEvent(QKeyEvent *
-     if ((d->mouseSelecting && e->key() != Qt::Key_Escape) || (QApplication::mouseButtons() & Qt::MidButton))
+     if ((d->mouseSelecting && e->key() != Qt::Key_Escape) || (QApplication::mouseButtons() & Qt::MiddleButton))
          return;
  
 +    // if viewport is moving, disable keys handling
@@ -122,7 +122,7 @@ diff -up okular-20.07.90/ui/pageview.cpp.omv~ okular-20.07.90/ui/pageview.cpp
      case Qt::Key_J:
      case Qt::Key_Down:
 -        slotScrollDown(1 /* go down 1 step */);
-+        slotScrollDown( true /* singleStep */);
++        slotScrollDown(true /* singleStep */);
          break;
  
      case Qt::Key_PageDown:
@@ -162,7 +162,7 @@ diff -up okular-20.07.90/ui/pageview.cpp.omv~ okular-20.07.90/ui/pageview.cpp
 +        return;
 +
      // if holding mouse mid button, perform zoom
-     if (e->buttons() & Qt::MidButton) {
+     if (e->buttons() & Qt::MiddleButton) {
          int mouseY = e->globalPos().y();
 @@ -2053,33 +2060,36 @@ void PageView::mouseMoveEvent(QMouseEven
                  d->mouseAnnotation->routeMouseMoveEvent(pageItem, eventPos, leftButton);
@@ -215,8 +215,8 @@ diff -up okular-20.07.90/ui/pageview.cpp.omv~ okular-20.07.90/ui/pageview.cpp
          return;
  
      // if performing a selection or dyn zooming, disable mouse press
--    if (d->mouseSelecting || (e->button() != Qt::MidButton && (e->buttons() & Qt::MidButton)))
-+    if (d->mouseSelecting || (e->button() != Qt::MidButton && (e->buttons() & Qt::MidButton)) || d->viewportMoveActive )
+-    if (d->mouseSelecting || (e->button() != Qt::MiddleButton && (e->buttons() & Qt::MiddleButton)))
++    if (d->mouseSelecting || (e->button() != Qt::MiddleButton && (e->buttons() & Qt::MiddleButton)) || d->viewportMoveActive )
          return;
  
      // if the page is scrolling, stop it
@@ -451,9 +451,9 @@ diff -up okular-20.07.90/ui/pageview.cpp.omv~ okular-20.07.90/ui/pageview.cpp
      } else if ((int)d->document->currentPage() < d->items.count() - 1) {
          // more optimized than document->setNextPage and then move view to top
          Okular::DocumentViewport newViewport = d->document->viewport();
-diff -up okular-20.07.90/ui/pageview.h.omv~ okular-20.07.90/ui/pageview.h
---- okular-20.07.90/ui/pageview.h.omv~	2020-08-06 00:46:23.120159826 +0200
-+++ okular-20.07.90/ui/pageview.h	2020-08-06 00:47:50.608140681 +0200
+diff -up okular-20.08.1/ui/pageview.h.1~ okular-20.08.1/ui/pageview.h
+--- okular-20.08.1/ui/pageview.h.1~	2020-08-31 21:02:06.000000000 +0200
++++ okular-20.08.1/ui/pageview.h	2020-09-07 01:56:50.397964403 +0200
 @@ -197,8 +197,8 @@ private:
  
      int viewColumns() const;
