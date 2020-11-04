@@ -163,7 +163,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
          return;
  
 +    // don't perform any mouse action when viewport is autoscrolling
-+    if (d->viewportMoveActive )
++    if ( d->viewportMoveActive )
 +        return;
 +
      // if holding mouse mid button, perform zoom
@@ -362,7 +362,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
 +    {
 +        center( d->viewportMoveDest.x(), d->viewportMoveDest.y() );
 +	d->viewportMoveActive = false;
-+	d->viewportMoveTimer->stop();
++	if(d->viewportMoveTimer) d->viewportMoveTimer->stop();
 +	verticalScrollBar()->setEnabled( true );
 +	horizontalScrollBar()->setEnabled( true );
 +    }
@@ -396,7 +396,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
 +    if ( diffTime >= 667 || !d->viewportMoveActive )
 +    {
 +        center( d->viewportMoveDest.x(), d->viewportMoveDest.y() );
-+        d->viewportMoveTimer->stop();
++        if(d->viewportMoveTimer) d->viewportMoveTimer->stop();
 +        d->viewportMoveActive = false;
 +        slotRequestVisiblePixmaps();
 +        verticalScrollBar()->setEnabled( true );
