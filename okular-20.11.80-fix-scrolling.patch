@@ -1,6 +1,6 @@
-diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
---- okular-20.08.3/ui/pageview.cpp.1~	2020-11-01 13:05:31.000000000 +0100
-+++ okular-20.08.3/ui/pageview.cpp	2020-11-04 02:30:01.122239656 +0100
+diff -up okular-20.11.80/ui/pageview.cpp.1~ okular-20.11.80/ui/pageview.cpp
+--- okular-20.11.80/ui/pageview.cpp.1~	2020-11-08 17:53:23.000000000 +0100
++++ okular-20.11.80/ui/pageview.cpp	2020-11-21 21:30:00.728480305 +0100
 @@ -39,8 +39,6 @@
  #include <QMimeDatabase>
  #include <QPainter>
@@ -19,7 +19,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      QPoint mousePressPos;
      QPoint mouseSelectPos;
      QPoint previousMouseMovePos;
-@@ -172,9 +170,14 @@ public:
+@@ -172,9 +170,15 @@ public:
      QList<TableSelectionPart> tableSelectionParts;
      bool tableDividersGuessed;
  
@@ -27,14 +27,15 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
 +    bool viewportMoveActive;
 +    QElapsedTimer viewportMoveTime;
 +    QPoint viewportMoveDest;
++
      int lastSourceLocationViewportPageNumber;
      double lastSourceLocationViewportNormalizedX;
      double lastSourceLocationViewportNormalizedY;
 +    QTimer *viewportMoveTimer;
      int controlWheelAccumulatedDelta;
-     // auto scroll
-     int scrollIncrement;
-@@ -252,8 +255,6 @@ public:
+ 
+     // for everything except PgUp/PgDn and scroll to arbitrary locations
+@@ -260,8 +264,6 @@ public:
  
      // Keep track of mouse over link object
      const Okular::ObjectRect *mouseOverLinkObject;
@@ -43,15 +44,15 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
  };
  
  PageViewPrivate::PageViewPrivate(PageView *qq)
-@@ -329,6 +330,7 @@ PageView::PageView(QWidget *parent, Okul
+@@ -337,6 +339,7 @@ PageView::PageView(QWidget *parent, Okul
      d->lastSourceLocationViewportPageNumber = -1;
      d->lastSourceLocationViewportNormalizedX = 0.0;
      d->lastSourceLocationViewportNormalizedY = 0.0;
 +    d->viewportMoveTimer = nullptr;
      d->controlWheelAccumulatedDelta = 0;
-     d->scrollIncrement = 0;
-     d->autoScrollTimer = nullptr;
-@@ -414,18 +416,6 @@ PageView::PageView(QWidget *parent, Okul
+     d->currentShortScrollDuration = d->baseShortScrollDuration;
+     d->currentLongScrollDuration = d->baseLongScrollDuration;
+@@ -424,18 +427,6 @@ PageView::PageView(QWidget *parent, Okul
      viewport()->setMouseTracking(true);
      viewport()->setAutoFillBackground(false);
  
@@ -70,7 +71,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      // the apparently "magic" value of 20 is the same used internally in QScrollArea
      verticalScrollBar()->setCursor(Qt::ArrowCursor);
      verticalScrollBar()->setSingleStep(20);
-@@ -436,17 +426,6 @@ PageView::PageView(QWidget *parent, Okul
+@@ -455,17 +446,6 @@ PageView::PageView(QWidget *parent, Okul
      connect(horizontalScrollBar(), &QAbstractSlider::valueChanged, this, &PageView::slotRequestVisiblePixmaps);
      connect(verticalScrollBar(), &QAbstractSlider::valueChanged, this, &PageView::slotRequestVisiblePixmaps);
  
@@ -88,7 +89,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      connect(&d->dragScrollTimer, &QTimer::timeout, this, &PageView::slotDragScroll);
  
      d->leftClickTimer.setSingleShot(true);
-@@ -1277,8 +1256,23 @@ void PageView::slotRealNotifyViewportCha
+@@ -1300,8 +1280,23 @@ void PageView::slotRealNotifyViewportCha
      // restore viewport center or use default {x-center,v-top} alignment
      const QPoint centerCoord = viewportToContentArea(vp);
  
@@ -114,7 +115,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
  
      d->blockPixmapsRequest = false;
  
-@@ -1854,11 +1848,15 @@ void PageView::keyPressEvent(QKeyEvent *
+@@ -1885,11 +1880,15 @@ void PageView::keyPressEvent(QKeyEvent *
      if ((d->mouseSelecting && e->key() != Qt::Key_Escape) || (QApplication::mouseButtons() & Qt::MiddleButton))
          return;
  
@@ -131,7 +132,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
          break;
  
      case Qt::Key_PageDown:
-@@ -1867,7 +1865,7 @@ void PageView::keyPressEvent(QKeyEvent *
+@@ -1898,7 +1897,7 @@ void PageView::keyPressEvent(QKeyEvent *
  
      case Qt::Key_K:
      case Qt::Key_Up:
@@ -140,25 +141,25 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
          break;
  
      case Qt::Key_PageUp:
-@@ -1882,7 +1880,7 @@ void PageView::keyPressEvent(QKeyEvent *
+@@ -1913,7 +1912,7 @@ void PageView::keyPressEvent(QKeyEvent *
              int next_page = d->document->currentPage() - viewColumns();
              d->document->setViewportPage(next_page);
          } else {
--            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(-horizontalScrollBar()->singleStep(), 0), 100);
+-            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(-horizontalScrollBar()->singleStep(), 0), d->currentShortScrollDuration);
 +            horizontalScrollBar()->triggerAction( QScrollBar::SliderSingleStepSub );
          }
          break;
      case Qt::Key_Right:
-@@ -1892,7 +1890,7 @@ void PageView::keyPressEvent(QKeyEvent *
+@@ -1923,7 +1922,7 @@ void PageView::keyPressEvent(QKeyEvent *
              int next_page = d->document->currentPage() + viewColumns();
              d->document->setViewportPage(next_page);
          } else {
--            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(horizontalScrollBar()->singleStep(), 0), 100);
+-            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(horizontalScrollBar()->singleStep(), 0), d->currentShortScrollDuration);
 +            horizontalScrollBar()->triggerAction( QScrollBar::SliderSingleStepAdd );
          }
          break;
      case Qt::Key_Escape:
-@@ -1998,6 +1996,10 @@ void PageView::mouseMoveEvent(QMouseEven
+@@ -2029,6 +2028,10 @@ void PageView::mouseMoveEvent(QMouseEven
      if (d->items.isEmpty())
          return;
  
@@ -169,7 +170,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      // if holding mouse mid button, perform zoom
      if (e->buttons() & Qt::MiddleButton) {
          int mouseY = e->globalPos().y();
-@@ -2057,33 +2059,37 @@ void PageView::mouseMoveEvent(QMouseEven
+@@ -2088,33 +2091,37 @@ void PageView::mouseMoveEvent(QMouseEven
                  d->mouseAnnotation->routeMouseMoveEvent(pageItem, eventPos, leftButton);
              }
              // drag page
@@ -217,7 +218,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
              }
          } else if (rightButton && !d->mousePressPos.isNull() && d->aMouseSelect) {
              // if mouse moves 5 px away from the press point, switch to 'selection'
-@@ -2143,7 +2149,7 @@ void PageView::mousePressEvent(QMouseEve
+@@ -2174,7 +2181,7 @@ void PageView::mousePressEvent(QMouseEve
          return;
  
      // if performing a selection or dyn zooming, disable mouse press
@@ -226,7 +227,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
          return;
  
      // if the page is scrolling, stop it
-@@ -2163,7 +2169,6 @@ void PageView::mousePressEvent(QMouseEve
+@@ -2194,7 +2201,6 @@ void PageView::mousePressEvent(QMouseEve
  
      // if we're editing an annotation, dispatch event to it
      if (d->annotator && d->annotator->active()) {
@@ -234,7 +235,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
          PageViewItem *pageItem = pickItemOnPoint(eventPos.x(), eventPos.y());
          d->annotator->routeMouseEvent(e, pageItem);
          return;
-@@ -2198,9 +2203,8 @@ void PageView::mousePressEvent(QMouseEve
+@@ -2229,9 +2235,8 @@ void PageView::mousePressEvent(QMouseEve
                  d->mouseAnnotation->routeMousePressEvent(pageItem, eventPos);
              }
  
@@ -245,7 +246,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
                  d->leftClickTimer.start(QApplication::doubleClickInterval() + 10);
              }
          }
-@@ -2337,6 +2341,10 @@ void PageView::mouseReleaseEvent(QMouseE
+@@ -2368,6 +2373,10 @@ void PageView::mouseReleaseEvent(QMouseE
          return;
      }
  
@@ -256,7 +257,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      const QPoint eventPos = contentAreaPoint(e->pos());
  
      // handle mode independent mid bottom zoom
-@@ -2357,7 +2365,6 @@ void PageView::mouseReleaseEvent(QMouseE
+@@ -2388,7 +2397,6 @@ void PageView::mouseReleaseEvent(QMouseE
  
      switch (d->mouseMode) {
      case Okular::Settings::EnumMouseMode::Browse: {
@@ -264,7 +265,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
  
          // return the cursor to its normal state after dragging
          if (cursor().shape() == Qt::ClosedHandCursor)
-@@ -3076,6 +3083,10 @@ void PageView::mouseDoubleClickEvent(QMo
+@@ -3107,6 +3115,10 @@ void PageView::mouseDoubleClickEvent(QMo
  
  void PageView::wheelEvent(QWheelEvent *e)
  {
@@ -275,7 +276,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      if (!d->document->isOpened()) {
          QAbstractScrollArea::wheelEvent(e);
          return;
-@@ -3106,7 +3117,6 @@ void PageView::wheelEvent(QWheelEvent *e
+@@ -3137,7 +3149,6 @@ void PageView::wheelEvent(QWheelEvent *e
                  newViewport.rePos.enabled = true;
                  newViewport.rePos.normalizedY = 0.0;
                  d->document->setViewport(newViewport);
@@ -283,7 +284,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
              }
          } else if (delta >= QWheelEvent::DefaultDeltasPerStep && !Okular::Settings::viewContinuous() && vScroll == verticalScrollBar()->minimum()) {
              // go to prev page
-@@ -3119,23 +3129,9 @@ void PageView::wheelEvent(QWheelEvent *e
+@@ -3150,23 +3161,9 @@ void PageView::wheelEvent(QWheelEvent *e
                  newViewport.rePos.enabled = true;
                  newViewport.rePos.normalizedY = 1.0;
                  d->document->setViewport(newViewport);
@@ -308,7 +309,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
          }
      }
  }
-@@ -3862,15 +3858,12 @@ void PageView::updateCursor(const QPoint
+@@ -3893,15 +3890,12 @@ void PageView::updateCursor(const QPoint
  
      // detect the underlaying page (if present)
      PageViewItem *pageItem = pickItemOnPoint(p.x(), p.y());
@@ -324,7 +325,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      } else if (pageItem) {
          double nX = pageItem->absToPageX(p.x());
          double nY = pageItem->absToPageY(p.y());
-@@ -4002,12 +3995,12 @@ int PageView::viewColumns() const
+@@ -4033,12 +4027,12 @@ int PageView::viewColumns() const
          return Okular::Settings::viewColumns();
  }
  
@@ -340,12 +341,12 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
  {
      bool prevState = d->blockPixmapsRequest;
  
-@@ -4017,10 +4010,8 @@ void PageView::scrollTo(int x, int y, bo
+@@ -4048,10 +4042,8 @@ void PageView::scrollTo(int x, int y, bo
  
      d->blockPixmapsRequest = true;
  
 -    if (smoothMove)
--        d->scroller->scrollTo(QPoint(x, y));
+-        d->scroller->scrollTo(QPoint(x, y), d->currentLongScrollDuration);
 -    else
 -        d->scroller->scrollTo(QPoint(x, y), 0);
 +    horizontalScrollBar()->setValue( x );
@@ -353,7 +354,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
  
      d->blockPixmapsRequest = prevState;
  
-@@ -4171,6 +4162,16 @@ void PageView::slotRelayoutPages()
+@@ -4220,6 +4212,16 @@ void PageView::slotRelayoutPages()
          return;
      }
  
@@ -370,7 +371,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      int viewportWidth = viewport()->width(), viewportHeight = viewport()->height(), fullWidth = 0, fullHeight = 0;
  
      // handle the 'center first page in row' stuff
-@@ -4365,7 +4366,7 @@ static void slotRequestPreloadPixmap(Oku
+@@ -4414,7 +4416,7 @@ static void slotRequestPreloadPixmap(Oku
  void PageView::slotRequestVisiblePixmaps(int newValue)
  {
      // if requests are blocked (because raised by an unwanted event), exit
@@ -379,11 +380,11 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
          return;
  
      // precalc view limits for intersecting with page coords inside the loop
-@@ -4509,11 +4510,37 @@ void PageView::slotRequestVisiblePixmaps
+@@ -4558,11 +4560,37 @@ void PageView::slotRequestVisiblePixmaps
          newViewport.rePos.normalizedY = focusedY;
          // set the viewport to other observers
          // do not update history if the viewport is autoscrolling
--        d->document->setViewportWithHistory(newViewport, this, false, d->scroller->state() == QScroller::Scrolling);
+-        d->document->setViewportWithHistory(newViewport, this, false, d->scroller->state() != QScroller::Scrolling);
 +        d->document->setViewportWithHistory(newViewport, this, false, true);
      }
      d->document->setVisiblePageRects(visibleRects, this);
@@ -418,7 +419,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
  void PageView::slotAutoScroll()
  {
      // the first time create the timer
-@@ -4535,7 +4562,7 @@ void PageView::slotAutoScroll()
+@@ -4584,7 +4612,7 @@ void PageView::slotAutoScroll()
      const int scrollOffset[10] = {1, 1, 1, 1, 1, 2, 2, 2, 4, 4};
      d->autoScrollTimer->start(scrollDelay[index]);
      int delta = d->scrollIncrement > 0 ? scrollOffset[index] : -scrollOffset[index];
@@ -427,7 +428,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
  }
  
  void PageView::slotDragScroll()
-@@ -4736,16 +4763,14 @@ void PageView::slotAutoScrollDown()
+@@ -4785,16 +4813,14 @@ void PageView::slotAutoScrollDown()
      setFocus();
  }
  
@@ -437,10 +438,10 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      // if in single page mode and at the top of the screen, go to \ page
      if (Okular::Settings::viewContinuous() || verticalScrollBar()->value() > verticalScrollBar()->minimum()) {
 -        if (nSteps) {
--            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, -100 * nSteps), 100);
+-            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, -100 * nSteps), d->currentShortScrollDuration);
 -        } else {
 -            if (d->scroller->finalPosition().y() > verticalScrollBar()->minimum())
--                d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, -(1 - Okular::Settings::scrollOverlap() / 100.0) * verticalScrollBar()->rect().height()));
+-                d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, -(1 - Okular::Settings::scrollOverlap() / 100.0) * verticalScrollBar()->rect().height()), d->currentLongScrollDuration);
 -        }
 +        if (singleStep)
 +            verticalScrollBar()->triggerAction( QScrollBar::SliderSingleStepSub );
@@ -449,7 +450,7 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      } else if (d->document->currentPage() > 0) {
          // more optimized than document->setPrevPage and then move view to bottom
          Okular::DocumentViewport newViewport = d->document->viewport();
-@@ -4758,16 +4783,14 @@ void PageView::slotScrollUp(int nSteps)
+@@ -4807,16 +4833,14 @@ void PageView::slotScrollUp(int nSteps)
      }
  }
  
@@ -459,10 +460,10 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      // if in single page mode and at the bottom of the screen, go to next page
      if (Okular::Settings::viewContinuous() || verticalScrollBar()->value() < verticalScrollBar()->maximum()) {
 -        if (nSteps) {
--            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, 100 * nSteps), 100);
+-            d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, 100 * nSteps), d->currentShortScrollDuration);
 -        } else {
 -            if (d->scroller->finalPosition().y() < verticalScrollBar()->maximum())
--                d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, (1 - Okular::Settings::scrollOverlap() / 100.0) * verticalScrollBar()->rect().height()));
+-                d->scroller->scrollTo(d->scroller->finalPosition() + QPoint(0, (1 - Okular::Settings::scrollOverlap() / 100.0) * verticalScrollBar()->rect().height()), d->currentLongScrollDuration);
 -        }
 +        if (singleStep)
 +            verticalScrollBar()->triggerAction(QScrollBar::SliderSingleStepAdd);
@@ -471,9 +472,9 @@ diff -up okular-20.08.3/ui/pageview.cpp.1~ okular-20.08.3/ui/pageview.cpp
      } else if ((int)d->document->currentPage() < d->items.count() - 1) {
          // more optimized than document->setNextPage and then move view to top
          Okular::DocumentViewport newViewport = d->document->viewport();
-diff -up okular-20.08.3/ui/pageview.h.1~ okular-20.08.3/ui/pageview.h
---- okular-20.08.3/ui/pageview.h.1~	2020-11-01 13:05:31.000000000 +0100
-+++ okular-20.08.3/ui/pageview.h	2020-11-04 02:27:37.031525368 +0100
+diff -up okular-20.11.80/ui/pageview.h.1~ okular-20.11.80/ui/pageview.h
+--- okular-20.11.80/ui/pageview.h.1~	2020-11-08 17:53:23.000000000 +0100
++++ okular-20.11.80/ui/pageview.h	2020-11-21 21:19:22.864606901 +0100
 @@ -197,8 +197,8 @@ private:
  
      int viewColumns() const;
@@ -485,7 +486,7 @@ diff -up okular-20.08.3/ui/pageview.h.1~ okular-20.08.3/ui/pageview.h
  
      void toggleFormWidgets(bool on);
  
-@@ -232,6 +232,8 @@ private Q_SLOTS:
+@@ -235,6 +235,8 @@ private Q_SLOTS:
      void delayedResizeEvent();
      // activated either directly or via the contentsMoving(int,int) signal
      void slotRequestVisiblePixmaps(int newValue = -1);
@@ -494,7 +495,7 @@ diff -up okular-20.08.3/ui/pageview.h.1~ okular-20.08.3/ui/pageview.h
      // activated by the autoscroll timer (Shift+Up/Down keys)
      void slotAutoScroll();
      // activated by the dragScroll timer
-@@ -264,8 +266,8 @@ private Q_SLOTS:
+@@ -267,8 +269,8 @@ private Q_SLOTS:
      void slotSetMouseTableSelect();
      void slotAutoScrollUp();
      void slotAutoScrollDown();

@@ -6,12 +6,12 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	20.08.3
+Version:	20.11.80
 Release:	1
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 # Partial revert of 51b90ecd73e37b9646d8a4bbb51e4fa815942912
 # to fix https://bugs.kde.org/show_bug.cgi?id=421780
-Patch0:		okular-20.07.90-fix-scrolling.patch
+Patch0:		okular-20.11.80-fix-scrolling.patch
 License:	GPLv2+
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org/applications/graphics/okular
@@ -64,7 +64,6 @@ Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fax = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
 Suggests:	%{name}-kimgio = %{EVRD}
-Suggests:	%{name}-ooo = %{EVRD}
 Suggests:	%{name}-plucker = %{EVRD}
 Suggests:	%{name}-tiff = %{EVRD}
 Suggests:	%{name}-txt = %{EVRD}
@@ -124,7 +123,6 @@ Suggests:	%{name}-dvi = %{EVRD}
 Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
 Suggests:	%{name}-kimgio = %{EVRD}
-Suggests:	%{name}-ooo = %{EVRD}
 Suggests:	%{name}-plucker = %{EVRD}
 Suggests:	%{name}-tiff = %{EVRD}
 Suggests:	%{name}-txt = %{EVRD}
@@ -354,23 +352,6 @@ KImgIO display support for Okular.
 
 #------------------------------------------------
 
-%package ooo
-Summary:	OpenOffice.Org/LibreOffice display support for Okular
-Group:		Graphical desktop/KDE
-Requires:	%{name}-ui = %{EVRD}
-
-%description ooo
-OpenOffice.org/LibreOffice display support for Okular.
-
-%files ooo -f okular_ooo.lang
-%{_libdir}/qt5/plugins/okular/generators/okularGenerator_ooo.so
-%{_datadir}/applications/okularApplication_ooo.desktop
-%{_datadir}/applications/org.kde.mobile.okular_ooo.desktop
-%{_datadir}/metainfo/org.kde.okular-ooo.metainfo.xml
-%{_datadir}/kservices5/okularOoo.desktop
-
-#------------------------------------------------
-
 %package postscript
 Summary:	PostScript display support for Okular
 Group:		Graphical desktop/KDE
@@ -503,7 +484,6 @@ based on Okular.
 %find_lang okular_kimgio
 %find_lang okular_markdown
 %find_lang okular_mobi
-%find_lang okular_ooo
 %find_lang okular_plucker
 %find_lang okular_poppler
 %find_lang okular_tiff
