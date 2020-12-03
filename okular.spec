@@ -7,7 +7,7 @@
 Summary:	A universal document viewer
 Name:		okular
 Version:	20.11.90
-Release:	1
+Release:	2
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 # Partial revert of 51b90ecd73e37b9646d8a4bbb51e4fa815942912
 # to fix https://bugs.kde.org/show_bug.cgi?id=421780
