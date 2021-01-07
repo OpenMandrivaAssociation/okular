@@ -7,7 +7,7 @@
 Summary:	A universal document viewer
 Name:		okular
 Version:	20.12.1
-Release:	1
+Release:	2
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 # Partial revert of 51b90ecd73e37b9646d8a4bbb51e4fa815942912
 # to fix https://bugs.kde.org/show_bug.cgi?id=421780
@@ -24,11 +24,12 @@ BuildRequires:	pkgconfig(Qt5Svg)
 BuildRequires:	pkgconfig(Qt5Qml)
 BuildRequires:	pkgconfig(Qt5Quick)
 BuildRequires:	pkgconfig(Qt5TextToSpeech)
-BuildRequires:	tiff-devel
+BuildRequires:	pkgconfig(tiff-4)
 BuildRequires:	pkgconfig(libmarkdown)
 BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	pkgconfig(libzip)
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	cmake(ECM)
 BuildRequires:	cmake(KF5Activities)
 BuildRequires:	cmake(KF5Archive)
@@ -52,6 +53,8 @@ BuildRequires:	cmake(KF5Kirigami2)
 BuildRequires:	cmake(Phonon4Qt5)
 BuildRequires:	cmake(Qca-qt5)
 BuildRequires:	cmake(KF5KExiv2)
+BuildRequires:	cmake(KF5Purpose)
+BuildRequires:	discount-devel
 Provides:	%{name}-ui = %{EVRD}
 Requires:	%{name}-common = %{EVRD}
 Requires:	%{name}-pdf = %{EVRD}
