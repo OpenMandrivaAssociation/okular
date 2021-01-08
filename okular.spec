@@ -467,9 +467,10 @@ based on Okular.
 
 %prep
 %autosetup -p1
-%cmake_kde5 \
+%cmake_kde5 --trace-source=CMakeLists.txt --trace-expand \
 	-DOKULAR_UI=both
 
+exit 1
 %build
 %ninja -C build
 
