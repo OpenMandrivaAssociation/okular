@@ -7,7 +7,7 @@
 Summary:	A universal document viewer
 Name:		okular
 Version:	20.12.1
-Release:	2
+Release:	3
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 # Partial revert of 51b90ecd73e37b9646d8a4bbb51e4fa815942912
 # to fix https://bugs.kde.org/show_bug.cgi?id=421780
@@ -54,7 +54,7 @@ BuildRequires:	cmake(Phonon4Qt5)
 BuildRequires:	cmake(Qca-qt5)
 BuildRequires:	cmake(KF5KExiv2)
 BuildRequires:	cmake(KF5Purpose)
-BuildRequires:	discount-devel
+BuildRequires:	pkgconfig(libmarkdown)
 Provides:	%{name}-ui = %{EVRD}
 Requires:	%{name}-common = %{EVRD}
 Requires:	%{name}-pdf = %{EVRD}
