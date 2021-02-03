@@ -54,7 +54,7 @@ BuildRequires:	cmake(Phonon4Qt5)
 BuildRequires:	cmake(Qca-qt5)
 BuildRequires:	cmake(KF5KExiv2)
 BuildRequires:	cmake(KF5Purpose)
-BuildRequires:	discount-devel
+BuildRequires:	pkgconfig(libmarkdown)
 Provides:	%{name}-ui = %{EVRD}
 Requires:	%{name}-common = %{EVRD}
 Requires:	%{name}-pdf = %{EVRD}
