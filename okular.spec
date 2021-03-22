@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	20.12.3
+Version:	21.03.80
 Release:	1
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 # Partial revert of 51b90ecd73e37b9646d8a4bbb51e4fa815942912
@@ -98,7 +98,7 @@ Group:		Graphical desktop/KDE
 Files needed by both the desktop and mobile frontends for Okular
 
 %files common -f okular.lang -f org.kde.active.documentviewer.lang -f okular_markdown.lang
-%doc AUTHORS COPYING TODO
+%doc COPYING TODO
 %{_datadir}/qlogging-categories5/okular.categories
 %{_libdir}/qt5/plugins/okularpart.so
 %{_datadir}/kservices5/okular_part.desktop
