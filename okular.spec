@@ -6,12 +6,9 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	21.04.2
+Version:	21.07.80
 Release:	1
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
-# Partial revert of 51b90ecd73e37b9646d8a4bbb51e4fa815942912
-# to fix https://bugs.kde.org/show_bug.cgi?id=421780
-Patch0:		okular-20.11.80-fix-scrolling.patch
 License:	GPLv2+
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org/applications/graphics/okular
@@ -98,7 +95,7 @@ Group:		Graphical desktop/KDE
 Files needed by both the desktop and mobile frontends for Okular
 
 %files common -f okular.lang -f org.kde.active.documentviewer.lang -f okular_markdown.lang
-%doc COPYING TODO
+%doc TODO
 %{_datadir}/qlogging-categories5/okular.categories
 %{_libdir}/qt5/plugins/okularpart.so
 %{_datadir}/kservices5/okular_part.desktop
@@ -189,9 +186,9 @@ BuildRequires:	chmlib-devel
 CHM (Microsoft Help) display support for Okular.
 
 %files chm -f okular_chm.lang
-%{_libdir}/qt5/plugins/kio_msits.so
+%{_libdir}/qt5/plugins/kf5/kio/kio_msits.so
 %{_libdir}/qt5/plugins/okular/generators/okularGenerator_chmlib.so
-%{_datadir}/kservices5/ms-its.protocol
+#{_datadir}/kservices5/ms-its.protocol
 %{_datadir}/applications/okularApplication_chm.desktop
 %{_datadir}/applications/org.kde.mobile.okular_chm.desktop
 %{_datadir}/metainfo/org.kde.okular-chm.metainfo.xml
