@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	21.12.2
+Version:	22.03.80
 Release:	1
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 License:	GPLv2+
@@ -421,7 +421,7 @@ XPS display support for Okular.
 
 #------------------------------------------------
 
-%define okularcore_major 9
+%define okularcore_major 10
 %define libokularcore %mklibname Okular5Core %{okularcore_major}
 
 %package -n %{libokularcore}
@@ -435,6 +435,7 @@ Obsoletes:	%{_lib}okularcore5 <= 2:15.12.1
 Obsoletes:	%{_lib}okularcore6 <= 2:15.12.1
 Obsoletes:	%{_lib}okularcore7 <= 2:16.06
 Obsoletes:	%{_lib}okularcore8 <= 2:18.08
+Obsoletes:	%{_lib}okularcore9 <= 2:22.03
 
 %description -n %{libokularcore}
 Runtime library for Okular.
