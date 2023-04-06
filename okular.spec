@@ -1,8 +1,5 @@
 %define snapshot %{nil}
-%define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
-%ifarch aarch64
-%global optflags %{optflags} -fuse-ld=bfd
-%endif
+%define stable %([ "$(echo %{version} |cut -d. -f3)" -ge 80 ] && echo -n un; echo -n stable)
 
 Summary:	A universal document viewer
 Name:		okular
@@ -92,7 +89,7 @@ Summary:	Files needed by both the desktop and mobile frontends for Okular
 Group:		Graphical desktop/KDE
 
 %description common
-Files needed by both the desktop and mobile frontends for Okular
+Files needed by both the desktop and mobile frontends for Okular.
 
 %files common -f okular.lang -f org.kde.active.documentviewer.lang -f okular_markdown.lang
 %doc TODO
@@ -130,7 +127,7 @@ Suggests:	%{name}-xps = %{EVRD}
 
 %description mobile
 An alternative user interface for Okular, targeting mobile
-devices rather than traditional desktops
+devices rather than traditional desktops.
 
 %files mobile
 %{_bindir}/okularkirigami
