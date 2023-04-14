@@ -1,9 +1,5 @@
 %define snapshot %{nil}
 %define stable %([ "$(echo %{version} |cut -d. -f3)" -ge 80 ] && echo -n un; echo -n stable)
-%ifarch aarch64
-# (tpg) 2023-04-06 https://github.com/llvm/llvm-project/issues/61974
-%global optflags %{optflags} -fuse-ld=bfd
-%endif
 
 Summary:	A universal document viewer
 Name:		okular
@@ -470,7 +466,7 @@ based on Okular.
 	-DOKULAR_UI=both
 
 %build
-%ninja -C build
+%ninja -C build || for i in $(ls /tmp/*.{cpp,sh}); do cat $i; done && exit 1
 
 %install
 %ninja_install -C build
