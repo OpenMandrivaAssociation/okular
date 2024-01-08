@@ -4,7 +4,7 @@
 Summary:	A universal document viewer
 Name:		plasma6-okular
 Version:	24.01.85
-Release:	1
+Release:	2
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/okular-%{version}.tar.xz
 License:	GPLv2+
 Group:		Graphical desktop/KDE
@@ -306,19 +306,16 @@ Markdown display support for Okular.
 Summary:	MobiPocket display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
-BuildRequires:	cmake(QMobipocket)
+BuildRequires:	cmake(QMobipocket6)
 
 %description mobipocket
 MobiPocket display support for Okular.
 
-%if 0
-# FIXME not yet in Qt6
 %files mobipocket -f okular_mobi.lang
 %{_libdir}/qt6/plugins/okular/generators/okularGenerator_mobi.so
 %{_datadir}/applications/okularApplication_mobi.desktop
 %{_datadir}/applications/org.kde.mobile.okular_mobi.desktop
 %{_datadir}/metainfo/org.kde.okular-mobipocket.metainfo.xml
-%endif
 
 #------------------------------------------------
 %package kimgio
@@ -475,8 +472,8 @@ based on Okular.
 %find_lang okular_txt
 %find_lang okular_xps
 %find_lang org.kde.active.documentviewer
-# Translations, but nothing else, exists in Qt6 chm and mobi
-for i in chm mobi; do
+# Translations, but nothing else, exists in Qt6 chm
+for i in chm; do
 	awk '{ print $2; }' okular_${i}.lang |while read r; do
 		rm %{buildroot}$r
 	done
