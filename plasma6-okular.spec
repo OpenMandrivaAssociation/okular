@@ -3,8 +3,8 @@
 
 Summary:	A universal document viewer
 Name:		plasma6-okular
-Version:	24.01.85
-Release:	2
+Version:	24.01.90
+Release:	1
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/okular-%{version}.tar.xz
 License:	GPLv2+
 Group:		Graphical desktop/KDE
@@ -93,7 +93,7 @@ Files needed by both the desktop and mobile frontends for Okular.
 %files common -f okular.lang -f org.kde.active.documentviewer.lang -f okular_markdown.lang
 %doc TODO
 %{_datadir}/qlogging-categories6/okular.categories
-%{_libdir}/qt6/plugins/okularpart.so
+%{_qtdir}/plugins/kf6/parts/okularpart.so
 %{_datadir}/okular
 %{_datadir}/kconf_update/okular.upd
 %{_datadir}/config.kcfg/okular.kcfg
@@ -144,7 +144,7 @@ PDF display support for Okular.
 
 %files pdf -f okular_poppler.lang
 %{_datadir}/config.kcfg/pdfsettings.kcfg
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_poppler.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_poppler.so
 %{_datadir}/applications/okularApplication_pdf.desktop
 %{_datadir}/applications/org.kde.mobile.okular_pdf.desktop
 %{_datadir}/metainfo/org.kde.okular-poppler.metainfo.xml
@@ -160,7 +160,7 @@ Requires:	%{name}-ui = %{EVRD}
 Plucker display support for Okular.
 
 %files plucker -f okular_plucker.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_plucker.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_plucker.so
 %{_datadir}/applications/okularApplication_plucker.desktop
 %{_datadir}/applications/org.kde.mobile.okular_plucker.desktop
 %{_datadir}/metainfo/org.kde.okular-plucker.metainfo.xml
@@ -180,7 +180,7 @@ CHM (Microsoft Help) display support for Okular.
 # FIXME Not yet supported in Qt6 version
 %files chm -f okular_chm.lang
 %{_libdir}/qt6/plugins/kf6/kio/kio_msits.so
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_chmlib.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_chmlib.so
 %{_datadir}/applications/okularApplication_chm.desktop
 %{_datadir}/applications/org.kde.mobile.okular_chm.desktop
 %{_datadir}/metainfo/org.kde.okular-chm.metainfo.xml
@@ -197,7 +197,7 @@ Requires:	%{name}-ui = %{EVRD}
 ComicBook display support for Okular.
 
 %files comicbook -f okular_comicbook.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_comicbook.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_comicbook.so
 %{_datadir}/applications/okularApplication_comicbook.desktop
 %{_datadir}/applications/org.kde.mobile.okular_comicbook.desktop
 %{_datadir}/metainfo/org.kde.okular-comicbook.metainfo.xml
@@ -214,7 +214,7 @@ BuildRequires:	pkgconfig(ddjvuapi)
 DjVu display support for Okular.
 
 %files djvu -f okular_djvu.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_djvu.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_djvu.so
 %{_datadir}/applications/okularApplication_djvu.desktop
 %{_datadir}/applications/org.kde.mobile.okular_djvu.desktop
 %{_datadir}/metainfo/org.kde.okular-djvu.metainfo.xml
@@ -230,7 +230,7 @@ Requires:	%{name}-ui = %{EVRD}
 DVI display support for Okular.
 
 %files dvi -f okular_dvi.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_dvi.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_dvi.so
 %{_datadir}/applications/okularApplication_dvi.desktop
 %{_datadir}/applications/org.kde.mobile.okular_dvi.desktop
 %{_datadir}/metainfo/org.kde.okular-dvi.metainfo.xml
@@ -247,7 +247,7 @@ BuildRequires:	ebook-tools-devel
 EPub display support for Okular.
 
 %files epub -f okular_epub.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_epub.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_epub.so
 %{_datadir}/applications/okularApplication_epub.desktop
 %{_datadir}/applications/org.kde.mobile.okular_epub.desktop
 %{_datadir}/metainfo/org.kde.okular-epub.metainfo.xml
@@ -263,7 +263,7 @@ Requires:	%{name}-ui = %{EVRD}
 Fax display support for Okular.
 
 %files fax -f okular_fax.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_fax.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_fax.so
 %{_datadir}/applications/okularApplication_fax.desktop
 %{_datadir}/applications/org.kde.mobile.okular_fax.desktop
 %{_datadir}/metainfo/org.kde.okular-fax.metainfo.xml
@@ -279,7 +279,7 @@ Requires:	%{name}-ui = %{EVRD}
 FeedBooks display support for Okular.
 
 %files fb -f okular_fictionbook.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_fb.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_fb.so
 %{_datadir}/applications/okularApplication_fb.desktop
 %{_datadir}/applications/org.kde.mobile.okular_fb.desktop
 %{_datadir}/metainfo/org.kde.okular-fb.metainfo.xml
@@ -295,7 +295,7 @@ Requires:	%{name}-ui = %{EVRD}
 Markdown display support for Okular.
 
 %files markdown
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_md.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_md.so
 %{_datadir}/applications/okularApplication_md.desktop
 %{_datadir}/applications/org.kde.mobile.okular_md.desktop
 %{_datadir}/metainfo/org.kde.okular-md.metainfo.xml
@@ -312,7 +312,7 @@ BuildRequires:	cmake(QMobipocket6)
 MobiPocket display support for Okular.
 
 %files mobipocket -f okular_mobi.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_mobi.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_mobi.so
 %{_datadir}/applications/okularApplication_mobi.desktop
 %{_datadir}/applications/org.kde.mobile.okular_mobi.desktop
 %{_datadir}/metainfo/org.kde.okular-mobipocket.metainfo.xml
@@ -327,7 +327,7 @@ Requires:	%{name}-ui = %{EVRD}
 KImgIO display support for Okular.
 
 %files kimgio -f okular_kimgio.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_kimgio.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_kimgio.so
 %{_datadir}/applications/okularApplication_kimgio.desktop
 %{_datadir}/applications/org.kde.mobile.okular_kimgio.desktop
 %{_datadir}/metainfo/org.kde.okular-kimgio.metainfo.xml
@@ -344,7 +344,7 @@ BuildRequires:	pkgconfig(libspectre)
 PostScript display support for Okular.
 
 %files postscript -f okular_ghostview.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_ghostview.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_ghostview.so
 %{_datadir}/applications/okularApplication_ghostview.desktop
 %{_datadir}/applications/org.kde.mobile.okular_ghostview.desktop
 %{_datadir}/metainfo/org.kde.okular-spectre.metainfo.xml
@@ -360,7 +360,7 @@ Requires:	%{name}-ui = %{EVRD}
 TIFF display support for Okular.
 
 %files tiff -f okular_tiff.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_tiff.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_tiff.so
 %{_datadir}/applications/okularApplication_tiff.desktop
 %{_datadir}/applications/org.kde.mobile.okular_tiff.desktop
 %{_datadir}/metainfo/org.kde.okular-tiff.metainfo.xml
@@ -376,7 +376,7 @@ Requires:	%{name}-ui = %{EVRD}
 TXT display support for Okular.
 
 %files txt -f okular_txt.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_txt.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_txt.so
 %{_datadir}/applications/org.kde.mobile.okular_txt.desktop
 %{_datadir}/applications/okularApplication_txt.desktop
 %{_datadir}/metainfo/org.kde.okular-txt.metainfo.xml
@@ -392,7 +392,7 @@ Requires:	%{name}-ui = %{EVRD}
 XPS display support for Okular.
 
 %files xps -f okular_xps.lang
-%{_libdir}/qt6/plugins/okular/generators/okularGenerator_xps.so
+%{_libdir}/qt6/plugins/okular_generators/okularGenerator_xps.so
 %{_datadir}/applications/okularApplication_xps.desktop
 %{_datadir}/applications/org.kde.mobile.okular_xps.desktop
 %{_datadir}/metainfo/org.kde.okular-xps.metainfo.xml
