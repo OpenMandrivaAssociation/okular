@@ -1,0 +1,51 @@
+From 53fb06d6b4a931b87364a87fcced459b5824b678 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Fri, 12 Jan 2024 01:02:46 +0100
+Subject: [PATCH 1/2] Fix loading okularpart
+
+Adapt to the new location
+---
+ shell/shell.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/shell/shell.cpp b/shell/shell.cpp
+index 0a006d5cad..9074a16037 100644
+--- a/shell/shell.cpp
++++ b/shell/shell.cpp
+@@ -201,7 +201,7 @@ Shell::Shell(const QString &serializedOptions)
+     // name which is a bad idea usually.. but it's alright in this
+     // case since our Part is made for this Shell
+ 
+-    const auto result = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("okularpart")));
++    const auto result = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("kf6/parts/okularpart")));
+ 
+     if (!result) {
+         // if we couldn't find our Part, we exit since the Shell by
+-- 
+GitLab
+
+
+From 478f6f24fbde4657b7bd13dbc4a58512cbd6eb2a Mon Sep 17 00:00:00 2001
+From: Sune Vuorela <sune@vuorela.dk>
+Date: Fri, 12 Jan 2024 09:43:16 +0100
+Subject: [PATCH 2/2] Also fix compile path
+
+---
+ CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index dc6c5a35d5..f44536b474 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -615,6 +615,7 @@ if (KF6Purpose_FOUND)
+ endif()
+ 
+ set_target_properties(okularpart PROPERTIES PREFIX "")
++set_target_properties(okularpart PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/kf6/parts)
+ 
+ if (Qt6TextToSpeech_FOUND)
+    target_link_libraries(okularpart Qt6::TextToSpeech)
+-- 
+GitLab
+

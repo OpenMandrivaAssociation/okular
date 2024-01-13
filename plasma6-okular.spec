@@ -4,8 +4,9 @@
 Summary:	A universal document viewer
 Name:		plasma6-okular
 Version:	24.01.90
-Release:	1
+Release:	2
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/okular-%{version}.tar.xz
+Patch0:		https://invent.kde.org/graphics/okular/-/merge_requests/906.patch
 License:	GPLv2+
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org/applications/graphics/okular
