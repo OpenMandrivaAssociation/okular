@@ -3,10 +3,9 @@
 
 Summary:	A universal document viewer
 Name:		plasma6-okular
-Version:	24.01.90
-Release:	2
+Version:	24.01.95
+Release:	1
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/okular-%{version}.tar.xz
-Patch0:		https://invent.kde.org/graphics/okular/-/merge_requests/906.patch
 License:	GPLv2+
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org/applications/graphics/okular
@@ -400,7 +399,7 @@ XPS display support for Okular.
 
 #------------------------------------------------
 
-%define okularcore_major 11
+%define okularcore_major 1
 %define libokularcore %mklibname Okular6Core
 
 %package -n %{libokularcore}
