@@ -1,4 +1,4 @@
-%define git 20240217
+#define git 20240217
 %define gitbranch release/24.02
 %define gitbranchd %(echo %{gitbranch} |sed -e "s,/,-,g")
 %define snapshot %{nil}
@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		plasma6-okular
-Version:	24.01.96
+Version:	24.02.0
 Release:	%{?git:0.%{git}.}1
 %if 0%{?git:1}
 Source0:	https://invent.kde.org/graphics/okular/-/archive/%{gitbranch}/okular-%{gitbranchd}.tar.bz2#/okular-%{git}.tar.bz2
