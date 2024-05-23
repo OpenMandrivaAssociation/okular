@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		plasma6-okular
-Version:	24.02.2
+Version:	24.05.0
 Release:	%{?git:0.%{git}.}1
 %if 0%{?git:1}
 Source0:	https://invent.kde.org/graphics/okular/-/archive/%{gitbranch}/okular-%{gitbranchd}.tar.bz2#/okular-%{git}.tar.bz2
@@ -67,7 +67,6 @@ Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fax = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
 Suggests:	%{name}-kimgio = %{EVRD}
-Suggests:	%{name}-plucker = %{EVRD}
 Suggests:	%{name}-tiff = %{EVRD}
 Suggests:	%{name}-txt = %{EVRD}
 Suggests:	%{name}-xps = %{EVRD}
@@ -123,7 +122,6 @@ Suggests:	%{name}-dvi = %{EVRD}
 Suggests:	%{name}-epub = %{EVRD}
 Suggests:	%{name}-fb = %{EVRD}
 Suggests:	%{name}-kimgio = %{EVRD}
-Suggests:	%{name}-plucker = %{EVRD}
 Suggests:	%{name}-tiff = %{EVRD}
 Suggests:	%{name}-txt = %{EVRD}
 Suggests:	%{name}-xps = %{EVRD}
@@ -155,22 +153,6 @@ PDF display support for Okular.
 %{_datadir}/applications/okularApplication_pdf.desktop
 %{_datadir}/applications/org.kde.mobile.okular_pdf.desktop
 %{_datadir}/metainfo/org.kde.okular-poppler.metainfo.xml
-
-#------------------------------------------------
-
-%package plucker
-Summary:	Plucker display support for Okular
-Group:		Graphical desktop/KDE
-Requires:	%{name}-ui = %{EVRD}
-
-%description plucker
-Plucker display support for Okular.
-
-%files plucker -f okular_plucker.lang
-%{_libdir}/qt6/plugins/okular_generators/okularGenerator_plucker.so
-%{_datadir}/applications/okularApplication_plucker.desktop
-%{_datadir}/applications/org.kde.mobile.okular_plucker.desktop
-%{_datadir}/metainfo/org.kde.okular-plucker.metainfo.xml
 
 #------------------------------------------------
 
@@ -462,7 +444,6 @@ based on Okular.
 %install
 %ninja_install -C build
 %find_lang okular --with-html --with-man
-%find_lang okular_chm
 %find_lang okular_comicbook
 %find_lang okular_djvu
 %find_lang okular_dvi
@@ -473,16 +454,8 @@ based on Okular.
 %find_lang okular_kimgio
 %find_lang okular_markdown
 %find_lang okular_mobi
-%find_lang okular_plucker
 %find_lang okular_poppler
 %find_lang okular_tiff
 %find_lang okular_txt
 %find_lang okular_xps
 %find_lang org.kde.active.documentviewer
-# Translations, but nothing else, exists in Qt6 chm
-for i in chm; do
-	awk '{ print $2; }' okular_${i}.lang |while read r; do
-		rm %{buildroot}$r
-	done
-	rm okular_${i}.lang
-done
