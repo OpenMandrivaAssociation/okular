@@ -8,7 +8,7 @@ Release:	2
 Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
 License:	GPLv2+
 Group:		Graphical desktop/KDE
-Url:		http://www.kde.org/applications/graphics/okular
+Url:		https://www.kde.org/applications/graphics/okular
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5DBus)
 BuildRequires:	pkgconfig(Qt5Test)
