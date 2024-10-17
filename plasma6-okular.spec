@@ -15,7 +15,7 @@ Source0:	http://download.kde.org/%{stable}/release-service/%{version}/src/okular
 %endif
 License:	GPLv2+
 Group:		Graphical desktop/KDE
-Url:		http://www.kde.org/applications/graphics/okular
+Url:		https://www.kde.org/applications/graphics/okular
 BuildRequires:	pkgconfig(Qt6Core)
 BuildRequires:	pkgconfig(Qt6DBus)
 BuildRequires:	pkgconfig(Qt6Test)
