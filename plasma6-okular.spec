@@ -7,7 +7,7 @@
 Summary:	A universal document viewer
 Name:		plasma6-okular
 Version:	24.12.3
-Release:	%{?git:0.%{git}.}1
+Release:	%{?git:0.%{git}.}2
 %if 0%{?git:1}
 Source0:	https://invent.kde.org/graphics/okular/-/archive/%{gitbranch}/okular-%{gitbranchd}.tar.bz2#/okular-%{git}.tar.bz2
 %else
