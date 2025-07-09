@@ -5,7 +5,7 @@
 %define stable %([ "$(echo %{version} |cut -d. -f3)" -ge 80 ] && echo -n un; echo -n stable)
 
 Summary:	A universal document viewer
-Name:		plasma6-okular
+Name:		okular
 Version:	25.04.0
 Release:	%{?git:0.%{git}.}1
 %if 0%{?git:1}
