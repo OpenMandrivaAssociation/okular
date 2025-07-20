@@ -6,7 +6,7 @@
 
 Summary:	A universal document viewer
 Name:		okular
-Version:	25.04.0
+Version:	25.04.3
 Release:	%{?git:0.%{git}.}1
 %if 0%{?git:1}
 Source0:	https://invent.kde.org/graphics/okular/-/archive/%{gitbranch}/okular-%{gitbranchd}.tar.bz2#/okular-%{git}.tar.bz2
@@ -72,6 +72,8 @@ Suggests:	%{name}-tiff = %{EVRD}
 Suggests:	%{name}-txt = %{EVRD}
 Suggests:	%{name}-xps = %{EVRD}
 
+%rename plasma6-okular
+
 %description
 Okular is a universal document viewer based on KPDF for KDE 6.
 
@@ -93,6 +95,7 @@ the supported formats and the features supported in each of them.
 %package common
 Summary:	Files needed by both the desktop and mobile frontends for Okular
 Group:		Graphical desktop/KDE
+%rename plasma6-okular-common
 
 %description common
 Files needed by both the desktop and mobile frontends for Okular.
@@ -102,7 +105,6 @@ Files needed by both the desktop and mobile frontends for Okular.
 %{_datadir}/qlogging-categories6/okular.categories
 %{_qtdir}/plugins/kf6/parts/okularpart.so
 %{_datadir}/okular
-%{_datadir}/kconf_update/okular.upd
 %{_datadir}/config.kcfg/okular.kcfg
 %{_datadir}/config.kcfg/gssettings.kcfg
 %{_datadir}/config.kcfg/okular_core.kcfg
@@ -126,6 +128,7 @@ Suggests:	%{name}-kimgio = %{EVRD}
 Suggests:	%{name}-tiff = %{EVRD}
 Suggests:	%{name}-txt = %{EVRD}
 Suggests:	%{name}-xps = %{EVRD}
+%rename plasma6-okular-mobile
 
 %description mobile
 An alternative user interface for Okular, targeting mobile
@@ -144,6 +147,7 @@ Summary:	PDF display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	pkgconfig(poppler-qt6)
+%rename plasma6-okular-pdf
 
 %description pdf
 PDF display support for Okular.
@@ -162,6 +166,7 @@ Summary:	CHM (Microsoft Help) display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	chmlib-devel
+%rename plasma6-okular-chm
 
 %description chm
 CHM (Microsoft Help) display support for Okular.
@@ -182,6 +187,7 @@ CHM (Microsoft Help) display support for Okular.
 Summary:	ComicBook display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
+%rename plasma6-okular-comicbook
 
 %description comicbook
 ComicBook display support for Okular.
@@ -199,6 +205,7 @@ Summary:	DjVu display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	pkgconfig(ddjvuapi)
+%rename plasma6-okular-djvu
 
 %description djvu
 DjVu display support for Okular.
@@ -215,6 +222,7 @@ DjVu display support for Okular.
 Summary:	DVI display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
+%rename plasma6-okular-dvi
 
 %description dvi
 DVI display support for Okular.
@@ -232,6 +240,7 @@ Summary:	EPub display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	ebook-tools-devel
+%rename plasma6-okular-epub
 
 %description epub
 EPub display support for Okular.
@@ -248,6 +257,7 @@ EPub display support for Okular.
 Summary:	Fax display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
+%rename plasma6-okular-fax
 
 %description fax
 Fax display support for Okular.
@@ -264,6 +274,7 @@ Fax display support for Okular.
 Summary:	FeedBooks display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
+%rename plasma6-okular-fb
 
 %description fb
 FeedBooks display support for Okular.
@@ -280,6 +291,7 @@ FeedBooks display support for Okular.
 Summary:	Markdown display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
+%rename plasma6-okular-markdown
 
 %description markdown
 Markdown display support for Okular.
@@ -297,6 +309,7 @@ Summary:	MobiPocket display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	cmake(QMobipocket6)
+%rename plasma6-okular-mobipocket
 
 %description mobipocket
 MobiPocket display support for Okular.
@@ -312,6 +325,7 @@ MobiPocket display support for Okular.
 Summary:	KImgIO display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
+%rename plasma6-okular-kimgio
 
 %description kimgio
 KImgIO display support for Okular.
@@ -329,6 +343,7 @@ Summary:	PostScript display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
 BuildRequires:	pkgconfig(libspectre)
+%rename plasma6-okular-postscript
 
 %description postscript
 PostScript display support for Okular.
@@ -345,6 +360,7 @@ PostScript display support for Okular.
 Summary:	TIFF display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
+%rename plasma6-okular-tiff
 
 %description tiff
 TIFF display support for Okular.
@@ -361,6 +377,7 @@ TIFF display support for Okular.
 Summary:	TXT display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
+%rename plasma6-okular-txt
 
 %description txt
 TXT display support for Okular.
@@ -377,6 +394,7 @@ TXT display support for Okular.
 Summary:	XPS display support for Okular
 Group:		Graphical desktop/KDE
 Requires:	%{name}-ui = %{EVRD}
+%rename plasma6-okular-xps
 
 %description xps
 XPS display support for Okular.
