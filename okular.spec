@@ -438,6 +438,7 @@ Group:		Development/KDE and Qt
 Requires:	%{libokularcore} = %{EVRD}
 Requires:	chmlib-devel
 Requires:	ebook-tools-devel
+%rename plasma6-okular-devel
 
 %description devel
 This package contains header files needed if you wish to build applications
